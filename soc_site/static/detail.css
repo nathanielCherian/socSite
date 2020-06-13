@@ -1,0 +1,13 @@
+
+.tag-elmt{
+    margin-left: .5vw;
+    margin-right: .5vw;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: none;
+}
+
+.tag-elmt:hover{
+    filter: brightness(85%);
+}

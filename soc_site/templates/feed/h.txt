@@ -1,0 +1,36 @@
+<article class="media content-section">
+
+    <img class="rounded-circle article-img" src="">
+
+      <div class="media-body">
+        <div class="article-metadata">
+            <div class="row">
+                <a class="col-6" href="">Author</a>
+                <small class="text-muted col-6" style="text-align: right;">Date Posted</small>
+            </div>
+        </div>
+
+        <h2><a class="article-title" href="">This is a sample Title</a></h2>
+        <p class="article-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque 
+            penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mass
+            a quis enim. Donec.</p>
+
+            <div class="article-fdata">
+
+                    <div class="float-right">
+                        <a href="#">
+                            <button class="tag-elmt" style="background-color: rgba(0, 255, 255, 0.5);">Python</button>
+                        </a>
+                    </div>
+
+                    <div class="float-right">
+                        <button class="tag-elmt" style="background-color: rgba(0, 255, 64, 0.507);">Swift</button>
+                    </div>
+
+                    <div class="float-right">
+                        <button class="tag-elmt" style="background-color: rgb(255, 81, 0, 0.507);">Java</button>
+                    </div>
+            </div>
+
+      </div>
+    </article>

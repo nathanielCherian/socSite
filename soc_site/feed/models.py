@@ -8,6 +8,7 @@ class Post(models.Model):
     summary = models.CharField(max_length=300)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
+    tags = models.CharField(max_length=300)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

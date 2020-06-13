@@ -1,8 +1,14 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'detail.css' %}">
+
 <!--<h1>I hope this works!</h1>-->
+
+{% for post in posts%}
 
 <article class="media content-section">
 
@@ -10,14 +16,44 @@
 
       <div class="media-body">
         <div class="article-metadata">
-          <a class="mr-2" href="">author</a>
-          <small class="text-muted">Date Posted</small>
+            <div class="row">
+                <a class="col-6" href="">{{ post.author }}</a>
+                <small class="text-muted col-6" style="text-align: right;">{{ post.date_posted }}</small>
+            </div>
         </div>
-        <h2><a class="article-title" href="">This is a sample Title</a></h2>
-        <p class="article-content">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque 
-            penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mass
-            a quis enim. Donec.</p>
+
+        <h2><a class="article-title" href="">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.summary }}</p>
+
+            <div class="article-fdata">
+
+                <script> 
+                var txt = document.createElement("textarea");
+                txt.innerHTML = '{{ post.tags }}';
+                tags = JSON.parse(txt.value)
+                txt.remove()
+
+                for(tag in tags['tags']){
+                    console.log(tags['tags'][tag])
+                    $('.article-fdata').last().append(`
+
+                    <div class="float-right">
+                        <a href="#">
+                            <button class="tag-elmt" style="background-color: rgba(0, 255, 255, 0.5);">` + tags['tags'][tag] +  `</button>
+                        </a>
+                    </div>
+                    
+                    `)
+                }
+
+                </script>
+                
+
+            </div>
+
       </div>
     </article>
+
+    {% endfor %}
 
 {% endblock content %}
