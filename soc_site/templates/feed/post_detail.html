@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'detail.css' %}">
+
+<!--<h1>I hope this works!</h1>-->
+
+
+<article class="media content-section">
+
+    <img class="rounded-circle article-img" src="">
+
+      <div class="media-body">
+        <div class="article-metadata">
+            <div class="row">
+                <a class="col-6" href="">{{ object.author }}</a>
+                <small class="text-muted col-6" style="text-align: right;">{{ object.date_posted }}</small>
+            </div>
+        </div>
+
+        <h2><a class="article-title" href="">{{ object.title }}</a></h2>
+        <p class="article-content">{{ object.content }}</p>
+
+            <div class="article-fdata">
+
+
+            </div>
+
+      </div>
+    </article>
+
+
+{% endblock content %}

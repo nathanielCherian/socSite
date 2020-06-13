@@ -31,8 +31,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                   <div class="navbar-nav mr-auto">
-                    <a class="nav-item nav-link" href="#">Feed</a>
-                    <a class="nav-item nav-link" href="#">About</a>
                   </div>
                   <!-- Navbar Right Side -->
                   <div class="navbar-nav">
@@ -47,8 +45,7 @@
 
           <main role="main" class="container">
             <div class="row">
-              <div class="col-md-1"></div>
-              <div class="col-md-10">
+              <div class="col-md-12">
 
                 {% if messages %}
                   {% for message in messages%}
@@ -61,7 +58,6 @@
                 {% block content %}{% endblock %}
 
               </div>
-              <div class="col-md-1"></div>
 
 
             </div>

@@ -6,8 +6,22 @@
     padding-left: 10px;
     padding-right: 10px;
     background: none;
+    outline: none;
+    transition-duration: 0.5s;
 }
 
 .tag-elmt:hover{
     filter: brightness(85%);
+    margin-top: -1vh;
+}
+.tag-elmt:focus{
+    outline: none;
+}
+
+.content-section{
+    transition-duration: .5s;
+}
+
+.content-section:hover{
+    filter: brightness(90%);
 }
