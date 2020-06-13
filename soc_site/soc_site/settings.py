@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'feed.apps.FeedConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +55,7 @@ ROOT_URLCONF = 'soc_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +67,8 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ] #added this in order to have project-level static folder
 
 WSGI_APPLICATION = 'soc_site.wsgi.application'
 
