@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('feed.urls')), #this will import all of the urls created in the feed app
     path('admin/', admin.site.urls),
+    path('', include('feed.urls')), #this will import all of the urls created in the feed app
 ]
