@@ -4,32 +4,69 @@
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'detail.css' %}">
+<link rel="stylesheet" href="{% static 'post_detail.css' %}">
 
 <!--<h1>I hope this works!</h1>-->
 
 
-<article class="media content-section">
+<article class="media content-section" style="padding-top: 6vh; min-height: 70vh;">
 
-    <img class="rounded-circle article-img" src="">
 
       <div class="media-body">
-        <div class="article-metadata">
+
+        <div class="container">
             <div class="row">
-                <a class="col-6" href="">{{ object.author }}</a>
-                <small class="text-muted col-6" style="text-align: right;">{{ object.date_posted }}</small>
-            </div>
+            
+                <div class="col-2"></div>
+                <div class="col-8">
+            <h2 class="article-title">{{ post.title }}</h2>
+                </div>
+                <div class="col-2"></div>
+
+
+
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div class="author-section">
+                        <img class="rounded-circle article-img" src="https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp">
+                        By <a href="#" style="color: black;">{{ post.author }} </a>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+
+
+
+                <div class="col-2"></div>
+                <div class="col-8">
+
+                    <div>
+                        <p class="article-content">{{ post.content }}</p>
+                    </div>
+
+                </div>
+                <div class="col-2"></div>
+
+                
+
+                <div class="col-2"></div>
+                <div class="col-8">
+
+                    <!-- End of text here, feel free to add anything after-->
+
+                    <div class="article-fdata">
+
+
+                    </div>
+
+                </div>
+                <div class="col-2"></div>
+
+
         </div>
 
-        <h2><a class="article-title" href="">{{ object.title }}</a></h2>
-        <p class="article-content">{{ object.content }}</p>
-
-            <div class="article-fdata">
-
-
-            </div>
-
+        </div>
       </div>
+
     </article>
 
 

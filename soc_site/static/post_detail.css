@@ -1,0 +1,22 @@
+.content-section{
+    transition-duration: .5s;
+}
+
+.content-section:hover{
+    filter: brightness(100%);
+}
+
+
+.article-title{
+    font-size: 6vh;
+}
+
+.author-section{
+    margin-top: 3vh;
+    font-size: large;
+    font-style: italic;
+}
+
+.article-content{
+    margin-top: 5vh;
+}

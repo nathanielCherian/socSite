@@ -17,6 +17,6 @@ class PostDetailView(DetailView):
 
 def post_detail_view(request, author, post):
     post = get_object_or_404(Post, slug=post, author__username=author)
-    return render(request, 'feed/post_detail.html', {'object':post})
+    return render(request, 'feed/post_detail.html', {'post':post})
     
 
