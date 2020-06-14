@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+
+    <div class="content-section">
+
+        <div class="register-form">
+
+            <h1>Hey there, {{ user.first_name }}</h1>
+
+            <p>Your account has been created succesfully, <a href="{% url 'login' %}">Log in!</a></p>
+        </div>
+
+    </div>
+
+
+{% endblock content %}

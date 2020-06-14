@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+    <h1>Create an Account!</h1>
+
+    <div class="content-section">
+
+        <div class="register-form">
+
+            <form method="POST">
+
+                {{ form.as_p}}
+                {% csrf_token %}
+
+                <p><input type="submit" value="Create account!"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+{% endblock content %}
