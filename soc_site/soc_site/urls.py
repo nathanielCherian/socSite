@@ -19,4 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('feed.urls')), #this will import all of the urls created in the feed app
+    path('account/', include('users.urls')), #this will import all of the urls created in the feed app
+    
 ]

@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <h2><a class="article-title" href="{% url 'home_feed' post.author post.slug %}">{{ post.title }}</a></h2>
+        <h2><a class="article-title" href="{% url 'post_detail' post.author post.slug %}">{{ post.title }}</a></h2>
         <p class="article-content">{{ post.summary }}</p>
 
             <div class="article-fdata">

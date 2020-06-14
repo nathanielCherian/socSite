@@ -34,8 +34,17 @@
                   </div>
                   <!-- Navbar Right Side -->
                   <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="#">Login</a>
+
+                    {% if request.user.is_authenticated %}
+                    <div>
+                    <img class="rounded-circle article-img" src="https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp" style="height: 3rem; width: 3rem;">
+                    <a class="nav-item nav-link" href="#" style="display: inline;">{{ request.user.username }}</a>
+                    </div>
+                    {% else %}
+                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                     <a class="nav-item nav-link" href="#">Register</a>
+                    {% endif %}
+
 
                   </div>
                 </div>

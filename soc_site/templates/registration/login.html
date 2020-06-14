@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+    <h1>Login!</h1>
+
+    <div class="content-section">
+
+        <div class="login-form">
+
+            <form method="POST">
+
+                {{ form.as_p}}
+                {% csrf_token %}
+
+                <input type="hidden" name="next" value="{{ next }}">
+                <p><input type="submit" value="Log In!"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+{% endblock content %}
