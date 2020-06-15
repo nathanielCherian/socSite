@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.views.generic import DetailView
 from django.template.defaultfilters import slugify
 from feed.models import Post
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, PostCreateForm
 from .models import Profile
 
 
@@ -44,4 +44,21 @@ def view_profile(request, user):
 
 
 def create_post(request):
-    return render(request, 'account/create_post.html')
+
+    
+    if request.method == 'POST':
+        post_form = PostCreateForm(request.POST)
+
+        if post_form.is_valid():
+            user = request.user
+            new_post = post_form.save(commit=False)
+            new_post.author = user
+            new_post.save()
+            return redirect('home_feed')
+
+        else:
+            return render(request, 'account/create_post.html', {'form':post_form})
+
+    else:
+        form = PostCreateForm()
+        return render(request, 'account/create_post.html', {'form':form})
