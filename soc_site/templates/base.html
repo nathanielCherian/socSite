@@ -32,14 +32,34 @@
                 <div class="collapse navbar-collapse" id="navbarToggle">
                   <div class="navbar-nav mr-auto">
                   </div>
+
+                  <form class="form-inline my-2 my-lg-0" style="margin-right: 1vw;">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="border-radius: 50px;">
+                  </form>
+                  
                   <!-- Navbar Right Side -->
                   <div class="navbar-nav">
 
                     {% if request.user.is_authenticated %}
-                    <div>
+
                     <img class="rounded-circle article-img" src="https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp" style="height: 3rem; width: 3rem;">
-                    <a class="nav-item nav-link" href="#" style="display: inline;">{{ request.user.username }}</a>
-                    </div>
+
+                    <div>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ request.user.username }}
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Create Post</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                      </div>
+                    </li>                    
+                  
+                  </div>
+
                     {% else %}
                     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                     <a class="nav-item nav-link" href="#">Register</a>
