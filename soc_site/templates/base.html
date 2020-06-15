@@ -31,6 +31,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                   <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="#">Mission</a>
+                    <a class="nav-item nav-link" href="#">Explore</a>
                   </div>
 
                   <form class="form-inline my-2 my-lg-0" style="margin-right: 1vw;">
@@ -42,7 +44,7 @@
 
                     {% if request.user.is_authenticated %}
 
-                    <img class="rounded-circle article-img" src="https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp" style="height: 3rem; width: 3rem;">
+                    <img class="rounded-circle article-img" src="{{ user.profile.photo.url }}" style="height: 3rem; width: 3rem;">
 
                     <div>
                     <li class="nav-item dropdown">
@@ -50,7 +52,7 @@
                         {{ request.user.username }}
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{% url 'view_profile' user.profile.slug %}">Profile</a>
                         <a class="dropdown-item" href="#">Create Post</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         <div class="dropdown-divider"></div>

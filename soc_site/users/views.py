@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 from django.views.generic import DetailView
+from django.template.defaultfilters import slugify
+from feed.models import Post
 from .forms import UserRegistrationForm
 from .models import Profile
 
@@ -18,6 +21,10 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password']) #using .set_password to invoke hashing algorithm
             new_user.save()
             
+            profile = Profile.objects.create(user=new_user)
+            profile.slug = slugify(new_user.username)
+            profile.save()
+
             return render(request, 'registration/register_done.html', {'user':new_user}) #rendering different page and passing user
 
         else:
@@ -28,3 +35,9 @@ def register(request):
         user_form = UserRegistrationForm()
         return render(request, 'registration/register.html', {'form':user_form})
 
+
+
+def view_profile(request, user):
+    profile = get_object_or_404(Profile, slug=user)
+    posts = Post.published.filter(author=profile.user).order_by('-date_posted')
+    return render(request, 'account/view_profile.html', {'profile':profile, 'posts':posts})

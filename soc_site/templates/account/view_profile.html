@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'post_detail.css' %}">
+
+<!--<h1>I hope this works!</h1>-->
+
+
+<article class="media content-section" style="padding-top: 6vh; min-height: 40vh;">
+
+
+      <div class="media-body">
+
+        <div class="container">
+            <div class="row">
+            
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <img class="rounded-circle article-img" src="{{ profile.photo.url }}" style="width: 10rem; height: 10rem;">
+                    <h2 class="article-title" style="display: inline;">{{ profile.user.username }}</h2>
+                    <hr>
+                </div>
+                <div class="col-2">
+                    {% if profile.user == user %}
+                    <button>Edit</button>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <link rel="stylesheet" href="{% static 'detail.css' %}">
+
+    {% for post in posts %}
+
+    <article class="media content-section">
+
+    
+    <div class="media-body">
+      <div class="article-metadata">
+          <div class="row">
+              <a class="col-6" href="">{{ post.author }}</a>
+              <small class="text-muted col-6" style="text-align: right;">{{ post.date_posted }}</small>
+          </div>
+      </div>
+
+      <h2><a class="article-title" href="{% url 'post_detail' post.author post.slug %}">{{ post.title }}</a></h2>
+      <p class="article-content">{{ post.summary }}</p>
+
+          <div class="article-fdata">
+
+              {% for tag in post.tags.all %}
+
+              <div class="float-right">
+                  <a href="#">
+                      <button class="tag-elmt" style="background-color: rgba(0, 255, 255, 0.5);">{{ tag }}</button>
+                  </a>
+              </div>
+
+              {% endfor %}
+              
+
+            </article>
+    {% endfor %}
+
+
+
+
+{% endblock content %}

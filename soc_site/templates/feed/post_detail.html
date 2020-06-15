@@ -29,8 +29,8 @@
                 <div class="col-2"></div>
                 <div class="col-8">
                     <div class="author-section">
-                        <img class="rounded-circle article-img" src="https://i.insider.com/5df126b679d7570ad2044f3e?width=1100&format=jpeg&auto=webp">
-                        By <a href="#" style="color: black;">{{ post.author }} </a>
+                        <img class="rounded-circle article-img" src="{{ post.author.profile.photo.url }}">
+                        By <a href="{% url 'view_profile' post.author.profile.slug %}" style="color: black;">{{ post.author }} </a>
                     </div>
                 </div>
                 <div class="col-2"></div>
