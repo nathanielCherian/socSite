@@ -41,3 +41,7 @@ def view_profile(request, user):
     profile = get_object_or_404(Profile, slug=user)
     posts = Post.published.filter(author=profile.user).order_by('-date_posted')
     return render(request, 'account/view_profile.html', {'profile':profile, 'posts':posts})
+
+
+def create_post(request):
+    return render(request, 'account/create_post.html')

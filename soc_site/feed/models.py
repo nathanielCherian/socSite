@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
+from ckeditor.fields import RichTextField
+
 
 class PublishedManager(models.Manager): #Custom queryset manager
     def get_queryset(self):
@@ -22,7 +24,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
     summary = models.CharField(max_length=300)
-    content = models.TextField()
+    content = RichTextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     date_posted = models.DateTimeField(default=timezone.now)
