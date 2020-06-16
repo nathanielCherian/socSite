@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from ckeditor_uploader import views as ckviews
 from users import views as user_views
 
 urlpatterns = [
@@ -24,8 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('feed.urls')), #this will import all of the urls created in the feed app
     path('account/', include('users.urls')), #this will import all of the urls created in the feed app
-    path('ckeditor', include('ckeditor_uploader.urls')),
-    
+    path('upload/', ckviews.upload, name='ckeditor_upload'),
+    path('browse/', ckviews.browse, name='ckeditor_browse'),
+
 ]
 
 if settings.DEBUG:

@@ -14,7 +14,7 @@
 
 
         <form method="POST" enctype="multipart/form-data">
-
+            {{ form.media }}
             {{ form | crispy}}
             {% csrf_token %}
 
@@ -23,11 +23,7 @@
         </form>
 
         <script>
-            CKEDITOR.replace( 'content' , {
-
-                filebrowserBrowseUrl: '/apps/ckfinder/3.4.5/ckfinder.html',
-                filebrowserImageBrowseUrl: '/apps/ckfinder/3.4.5/ckfinder.html?type=Images',
-            });
+            CKEDITOR.replace( 'content' );
 
         </script>
 
