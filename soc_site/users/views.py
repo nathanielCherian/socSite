@@ -78,3 +78,29 @@ def create_post(request):
 def saved_drafts(request):
     drafts = Post.objects.filter(author=request.user, status='draft').order_by('-date_posted')
     return render(request, 'account/saved_drafts.html', {'posts':drafts})
+
+@login_required
+def edit_post(request, post_slug):
+
+    post = get_object_or_404(Post, slug=post_slug)
+
+
+    if request.method == 'POST':
+        #post_form = PostCreateForm(request.POST)
+
+
+        edited_post = PostCreateForm(request.POST, instance=post)
+        edited_post.save()
+
+        if edited_post.cleaned_data.get('status') == 'draft':
+            return redirect('view_profile', request.user.username)
+
+        return redirect('home_feed')
+
+
+    else:
+        post_form = PostCreateForm(instance=post)
+        return render(request, 'account/edit_post.html', {'form':post_form})
+
+
+

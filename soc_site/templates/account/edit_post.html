@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+<script src="https://cdn.ckeditor.com/ckeditor5/19.1.1/classic/ckeditor.js"></script>
+
+
+
+<h1>Edit Post!</h1>
+
+<div class="content-section">
+
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.media }}
+            {{ form | crispy}}
+            {% csrf_token %}
+
+
+            <p><input type="submit" onclick= 'allowReload()' value="Save!"></p>
+        </form>
+
+        <script>
+                        ClassicEditor
+                                .create( document.querySelector( 'content' ) )
+                                .then( editor => {
+                                        console.log( editor );
+                                } )
+                                .catch( error => {
+                                        console.error( error );
+                                } );
+
+
+                        window.onbeforeunload = function() {
+                            return "";
+                        }
+
+                        function allowReload(){
+                            window.onbeforeunload = null
+                        }
+        </script>
+
+
+</div>
+
+{% endblock content %}

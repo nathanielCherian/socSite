@@ -18,10 +18,20 @@
             <div class="row">
             
                 <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-7">
             <h2 class="article-title">{{ post.title }}</h2>
                     <hr>
                 </div>
+
+                <div class="col-1">
+                    {% if post.status == 'draft' %}
+
+                    <a href="{% url 'edit_post' post.slug %}"><button>Edit</button></a>
+
+                    {% endif %}
+
+                </div>
+
                 <div class="col-2"></div>
 
 
@@ -32,10 +42,11 @@
                         <img class="rounded-circle article-img" src="{{ post.author.profile.photo.url }}">
                         By <a href="{% url 'view_profile' post.author.profile.slug %}" style="color: black;">{{ post.author }} </a>
                     </div>
+                    <hr style="margin-top: 3vh;">
+
                 </div>
                 <div class="col-2"></div>
                 
-
 
                 <div class="col-2"></div>
                 <div class="col-8">

@@ -54,6 +54,7 @@
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'view_profile' user.profile.slug %}">Profile</a>
                         <a class="dropdown-item" href="{% url 'create_post' %}">Create Post</a>
+                        <a class="dropdown-item" href="{% url 'saved_drafts' %}">Saved Drafts</a>
                         <a class="dropdown-item" href="#">Settings</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>

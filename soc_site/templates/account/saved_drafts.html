@@ -6,14 +6,15 @@
 
 <link rel="stylesheet" href="{% static 'post_detail.css' %}">
 
-<!--<h1>I hope this works!</h1>-->
 
 
     <link rel="stylesheet" href="{% static 'detail.css' %}">
 
+    <h1>These are your Drafts, they're private...</h1>
+
     {% for post in posts %}
 
-    <article class="media content-section">
+    <article class="media content-section" style="margin-top: 3vh;">
 
     
     <div class="media-body">
@@ -24,7 +25,12 @@
           </div>
       </div>
 
-      <h2><a class="article-title" href="{% url 'post_detail' post.author post.slug %}">{{ post.title }}</a></h2>
+      <div class="row">
+        <h2 class="col-11"><a class="article-title" href="{% url 'post_detail' post.author post.slug %}">{{ post.title }}</a></h2>
+        <!-- Uncomment for button on post display 
+        <a href="#" class="col-1"><button>Edit</button></a>-->
+    </div>
+    
       <p class="article-content">{{ post.summary }}</p>
 
           <div class="article-fdata">
@@ -41,7 +47,7 @@
               
 
             </article>
-            
+
     {% endfor %}
 
 
