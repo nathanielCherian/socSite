@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'taggit',
     'ckeditor',
+    'ckeditor_uploader'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,10 @@ LOGOUT_URL = 'logout'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+
+################ CKEditor ############################
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+

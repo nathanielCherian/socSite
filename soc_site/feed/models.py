@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from taggit.managers import TaggableManager
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class PublishedManager(models.Manager): #Custom queryset manager
@@ -25,7 +25,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100, unique=False)
     slug = models.SlugField(max_length=100)
     summary = models.CharField(max_length=300)
-    content = RichTextField()
+    content = RichTextUploadingField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     date_posted = models.DateTimeField(default=timezone.now)

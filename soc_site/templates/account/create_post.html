@@ -4,7 +4,7 @@
 
 
 {% block content %}
-<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script>
 
 
 
@@ -13,7 +13,7 @@
 <div class="content-section">
 
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             {{ form | crispy}}
             {% csrf_token %}
@@ -23,7 +23,12 @@
         </form>
 
         <script>
-            CKEDITOR.replace( 'content' );
+            CKEDITOR.replace( 'content' , {
+
+                filebrowserBrowseUrl: '/apps/ckfinder/3.4.5/ckfinder.html',
+                filebrowserImageBrowseUrl: '/apps/ckfinder/3.4.5/ckfinder.html?type=Images',
+            });
+
         </script>
 
 
