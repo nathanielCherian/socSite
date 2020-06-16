@@ -16,7 +16,11 @@ class PostDetailView(DetailView):
     model = Profile '''
 
 def post_detail_view(request, author, post):
-    post = get_object_or_404(Post, slug=post, author__username=author)
-    return render(request, 'feed/post_detail.html', {'post':post})
+    if request.user.is_authenticated: # if statement is to protect saved drafts
+        post = get_object_or_404(Post, slug=post, author__username=author)
+        return render(request, 'feed/post_detail.html', {'post':post})
+    else:
+        post = get_object_or_404(Post, slug=post, author__username=author, status='published')
+        return render(request, 'feed/post_detail.html', {'post':post})
     
 

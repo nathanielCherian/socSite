@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.views.generic import DetailView
+from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from feed.models import Post
 from .forms import UserRegistrationForm, PostCreateForm
@@ -36,13 +37,14 @@ def register(request):
         return render(request, 'registration/register.html', {'form':user_form})
 
 
-
+@login_required
 def view_profile(request, user):
     profile = get_object_or_404(Profile, slug=user)
     posts = Post.published.filter(author=profile.user).order_by('-date_posted')
     return render(request, 'account/view_profile.html', {'profile':profile, 'posts':posts})
 
 
+@login_required
 def create_post(request):
 
     
@@ -50,10 +52,17 @@ def create_post(request):
         post_form = PostCreateForm(request.POST)
 
         if post_form.is_valid():
+
+
+
             user = request.user
             new_post = post_form.save(commit=False)
             new_post.author = user
             new_post.save()
+
+            if post_form.cleaned_data.get('status')== 'draft':
+                return redirect('view_profile', user)
+    
             return redirect('home_feed')
 
         else:
@@ -62,3 +71,10 @@ def create_post(request):
     else:
         form = PostCreateForm()
         return render(request, 'account/create_post.html', {'form':form})
+
+
+
+@login_required
+def saved_drafts(request):
+    drafts = Post.objects.filter(author=request.user, status='draft').order_by('-date_posted')
+    return render(request, 'account/saved_drafts.html', {'posts':drafts})
