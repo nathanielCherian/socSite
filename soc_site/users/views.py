@@ -4,6 +4,7 @@ from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from feed.models import Post
+from taggit.models import Tag
 from .forms import UserRegistrationForm, PostCreateForm, ProfileEditForm
 from .models import Profile
 
@@ -92,10 +93,10 @@ def edit_post(request, post_slug):
         edited_post = PostCreateForm(request.POST, instance=post)
         edited_post.save()
 
-        if edited_post.cleaned_data.get('status') == 'draft':
-            return redirect('view_profile', request.user.username)
+        #if edited_post.cleaned_data.get('status') == 'draft':
+        #   return redirect('view_profile', request.user.username)
 
-        return redirect('home_feed')
+        return redirect('post_detail', post.author.profile.slug, post.slug)
 
 
     else:
@@ -116,6 +117,15 @@ def edit_profile(request):
         profile_form = ProfileEditForm(instance=request.user.profile)
 
     return render(request, 'account/edit_profile.html', {'profile_form':profile_form, 'profile': request.user.profile})
+
+
+
+def view_by_tag(request, tag_slug):
+    posts = Post.published.all()
+    tag = Tag.objects.filter(slug=tag_slug).first()
+    #tag = get_object_or_404(Tag, slug=tag_slug)
+    object_list = posts.filter(tags__in=[tag])
+    return render(request, 'feed/posts_by_tag.html', {'posts':object_list, 'c_tag':tag})
 
 
 

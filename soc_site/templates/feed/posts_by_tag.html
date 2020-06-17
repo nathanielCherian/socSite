@@ -8,11 +8,16 @@
 
 <!--<h1>I hope this works!</h1>-->
 
-
+{% if posts|length > 0 %}
+<h1>Posts for "{{ c_tag }}" ({{ posts|length }})</h1>
+{% else %}
+<h1>Sorry there are no posts with that tag</h1>
+<h2 style="margin-top: 3vh;">Why not <a href="{% url 'create_post' %}">Make one</a>...</h2>
+{% endif %}
 
 {% for post in posts%}
 
-<article class="media content-section">
+<article class="media content-section" style="margin-top: 3vh;">
 
     <img class="rounded-circle article-img" src="{{ post.author.profile.photo.url }}">
 
