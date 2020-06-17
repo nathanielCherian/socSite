@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
+from django.db.models import Q
 from .models import Post
 from users.models import Profile
 
@@ -24,3 +25,11 @@ def post_detail_view(request, author, post):
         return render(request, 'feed/post_detail.html', {'post':post})
     
 
+def get_post_queryset(request, query=None):
+
+    posts = Post.published.all()
+
+    if 'search' in request.GET:
+        search_term = request.GET['search']
+        posts = posts.filter(Q(title__icontains=search_term) | Q(summary__icontains=search_term))
+        return render(request, 'feed/query_posts.html', {'posts':posts, 'search_term':search_term})
