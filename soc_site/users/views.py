@@ -54,8 +54,6 @@ def create_post(request):
 
         if post_form.is_valid():
 
-
-
             user = request.user
             new_post = post_form.save(commit=False)
             new_post.author = user
