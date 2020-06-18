@@ -118,7 +118,7 @@ def edit_profile(request):
 
 
 @login_required
-def profile_settings(request):
+def account_settings(request):
 
     return render(request, 'account/settings.html')
 
