@@ -1,0 +1,32 @@
+<article class="media content-section">
+
+    <img class="rounded-circle article-img" src="{{ post.author.profile.photo.url }}">
+
+      <div class="media-body">
+        <div class="article-metadata">
+            <div class="row">
+                <a class="col-6" href="{% url 'view_profile' post.author.profile.slug %}">{{ this_post.author }}</a>
+                <small class="text-muted col-6" style="text-align: right;">{{ this_post.date_posted }}</small>
+            </div>
+        </div>
+
+        <h2><a class="article-title" href="{% url 'post_detail' post.author post.slug %}">{{ this_post.title }}</a></h2>
+        <p class="article-content">{{ this_post.summary }}</p>
+
+            <div class="article-fdata">
+
+                {% for tag in this_post.tags.all %}
+
+                <div class="float-right">
+                    <a href="{% url 'view_by_tag' tag.slug %}">
+                        <button class="tag-elmt" style="background-color: rgba(0, 255, 255, 0.5);">{{ tag }}</button>
+                    </a>
+                </div>
+
+                {% endfor %}
+                
+
+            </div>
+
+      </div>
+    </article>

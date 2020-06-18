@@ -117,6 +117,12 @@ def edit_profile(request):
     return render(request, 'account/edit_profile.html', {'profile_form':profile_form, 'profile': request.user.profile})
 
 
+@login_required
+def profile_settings(request):
+
+    return render(request, 'account/settings.html')
+
+
 
 def view_by_tag(request, tag_slug):
     posts = Post.published.all()
