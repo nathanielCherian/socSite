@@ -4,12 +4,17 @@
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'post_detail.css' %}">
 
 <!--<h1>I hope this works!</h1>-->
 
+<style>
+    #profile{
+        filter: brightness(100%);
+    }   
+</style>
 
-<article class="media content-section" style="padding-top: 6vh; min-height: 40vh;">
+
+<article class="media content-section" id='profile' style="padding-top: 6vh; min-height: 40vh;">
 
 
       <div class="media-body">
@@ -25,15 +30,22 @@
 
                 <div class="col-6">
                     <div class="row">
-                        <h2 class="article-title" style="display: inline;">{{ profile.user.username }}</h2>
+                        <h1 class="article-title" style="display: inline;">{{ profile.user.username }}</h1>
                     </div>
 
-                    <div class="row">
-                        <h4 style="display: inline;">{{ profile.user.first_name }} {{ profile.user.last_name }}</h4>
 
+                    <div class="info" style="margin-left: 5px;">
+
+                    <div class="row">
+
+                        <h4 style="display: inline;">{{ profile.user.first_name }} {{ profile.user.last_name }}</h4>
+                    </div>
+                    
+                    <div class="row">
                         {% if profile.establishment %}
-                        <h4 style="display: inline;">{{ profile.establishment }} </h4>
+                        <h4 style="display: inline;">{{ profile.establishment }}</h4>
                         {% endif %}
+                    </div>
 
                     </div>
 
@@ -43,12 +55,18 @@
                 
                 <div class="col-2">
                     {% if profile.user == user %}
-                    <a href="{% url 'edit_profile' %}"><button>Edit</button></a>
+                    <a href="{% url 'profile_settings' %}"><img src="/static/assets/settings_icon.png" style="width: 2rem; height: 2rem;"></a>
                     {% endif %}
                 </div>
 
             </div>
 
+            </div>
+
+            <div class="row justify-content-end" style="margin-top: 8vh;">
+                <div class="col-8"><a href="{% url 'saved_drafts'%}"> <h2> See Drafts... </h2></a></div>
+                <div class="col-2"> <h2>{{ posts|length }} post(s)</h2></div>
+                <div class="col-1"></div>
             </div>
 
         </div>
