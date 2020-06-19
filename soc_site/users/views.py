@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from feed.models import Post
 from taggit.models import Tag
-from .forms import UserRegistrationForm, PostCreateForm, ProfileEditForm
+from .forms import UserRegistrationForm, PostCreateForm
 from .models import Profile
 
 
@@ -102,25 +102,10 @@ def edit_post(request, post_slug):
         return render(request, 'account/edit_post.html', {'form':post_form})
 
 
-@login_required
-def edit_profile(request):
-    
-    if request.method == 'POST':
-        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
-
-        if profile_form.is_valid():
-            profile_form.save()
-    
-    else:
-        profile_form = ProfileEditForm(instance=request.user.profile)
-
-    return render(request, 'account/edit_profile.html', {'profile_form':profile_form, 'profile': request.user.profile})
 
 
-@login_required
-def account_settings(request):
 
-    return render(request, 'account/settings.html')
+
 
 
 

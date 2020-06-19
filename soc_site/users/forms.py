@@ -30,15 +30,4 @@ class PostCreateForm(forms.ModelForm):
         model = Post
         fields = ('title', 'summary', 'content', 'tags', 'status')
 
-class ProfileEditForm(forms.ModelForm):
-    
-    class Meta:
-        model = Profile
-        fields = ('photo',)
 
-
-class UserEditForm(forms.ModelForm):
-
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name')

@@ -24,6 +24,7 @@ urlpatterns = [
     path('users/<slug:user>', user_views.view_profile, name='view_profile'),
     path('admin/', admin.site.urls),
     path('', include('feed.urls')), #this will import all of the urls created in the feed app
+    path('settings/', include('usettings.urls')), #all of the user settings
     path('account/', include('users.urls')), #this will import all of the urls created in the feed app
     path('upload/', ckviews.upload, name='ckeditor_upload'),
     path('browse/', ckviews.browse, name='ckeditor_browse'),

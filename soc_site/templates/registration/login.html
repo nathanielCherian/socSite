@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
@@ -12,7 +13,7 @@
 
             <form method="POST">
 
-                {{ form.as_p}}
+                {{ form | crispy }}
                 {% csrf_token %}
 
                 <input type="hidden" name="next" value="{{ next }}">
