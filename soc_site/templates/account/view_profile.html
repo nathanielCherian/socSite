@@ -64,7 +64,9 @@
             </div>
 
             <div class="row justify-content-end" style="margin-top: 8vh;">
+                {% if profile.user == user %}
                 <div class="col-8"><a href="{% url 'saved_drafts'%}"> <h2> See Drafts... </h2></a></div>
+                {% endif %}
                 <div class="col-2"> <h2>{{ posts|length }} post(s)</h2></div>
                 <div class="col-1"></div>
             </div>

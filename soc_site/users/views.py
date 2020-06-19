@@ -38,7 +38,6 @@ def register(request):
         return render(request, 'registration/register.html', {'form':user_form})
 
 
-@login_required
 def view_profile(request, user):
     profile = get_object_or_404(Profile, slug=user)
     posts = Post.published.filter(author=profile.user).order_by('-date_posted')
