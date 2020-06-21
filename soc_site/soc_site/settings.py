@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'discussions.apps.DiscussionsConfig',
     'usettings.apps.UsettingsConfig',
     'users.apps.UsersConfig',
     'feed.apps.FeedConfig',

@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="{% static 'detail.css' %}">
 
+<div>
 {% if posts|length > 0 %}
 <h1>Posts for "{{ search_term }}" ({{ posts|length }})</h1>
 {% else %}
@@ -18,5 +19,6 @@
     {% include 'snippets/post_display.html' with this_post=post%}
 
 {% endfor %}
+</div>
 
 {% endblock content %}

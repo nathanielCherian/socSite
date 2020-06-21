@@ -8,6 +8,7 @@
 
 <!--<h1>I hope this works!</h1>-->
 
+<div>
 {% if posts|length > 0 %}
 <h1>Posts for "{{ c_tag }}" ({{ posts|length }})</h1>
 {% else %}
@@ -20,5 +21,6 @@
     {% include 'snippets/post_display.html' with this_post=post%}
 
 {% endfor %}
+</div>
 
 {% endblock content %}
