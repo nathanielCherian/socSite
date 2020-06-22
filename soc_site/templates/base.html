@@ -33,7 +33,7 @@
                   <div class="navbar-nav mr-auto">
                     <a class="nav-item nav-link" href="#">Courses</a>
                     <a class="nav-item nav-link" href="#">Explore</a>
-                    <a class="nav-item nav-link" href="#">Discussions</a>
+                    <a class="nav-item nav-link" href="{% url 'discussion_board'%}">Discussions</a>
                   </div>
 
                   <form class="form-inline my-2 my-lg-0" style="margin-right: 1vw;" method="GET" action="/search/">
@@ -104,7 +104,7 @@
                 {% endfor %}
                 {% endif %}
                 
-                <div style="min-height: 80vh;">
+                <div style="min-height: 100vh;">
                 {% block content %}{% endblock %}
               </div>
               </div>

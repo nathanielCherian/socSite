@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+<script src="https://cdn.ckeditor.com/ckeditor5/19.1.1/classic/ckeditor.js"></script>
+
+
+
+<h1>Create Question!</h1>
+
+<div class="content-section">
+
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.media }}
+            {{ form | crispy}}
+            {% csrf_token %}
+
+
+            <p><input type="submit"  value="Save!"></p>
+        </form>
+
+
+
+</div>
+
+{% endblock content %}

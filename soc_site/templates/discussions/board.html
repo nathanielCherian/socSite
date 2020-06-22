@@ -10,5 +10,29 @@
 
 <h1>Discussion Board</h1>
 
+{% for question in questions %}
+
+<article class="media content-section" style="min-height: 20vh;">
+
+      <div class="media-body">
+        <div class="article-metadata">
+            <div class="row">
+                <a class="col-6" href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a>
+                <small class="text-muted col-6" style="text-align: right;">{{ question.date_posted }}</small>
+            </div>
+        </div>
+
+        <h2><a class="article-title" href="{% url 'view_question' question.slug %}">{{ question.title }}</a></h2>
+        <p class="article-content">{{ question.content }}</p>
+
+        <h3>{{ question.responses.all | length }} response {{ question.responses.all | length |pluralize}}</h3>
+
+        </div>
+
+    </article>
+
+{%  endfor %}
+
+
 
 {% endblock content %}

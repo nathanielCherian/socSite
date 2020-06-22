@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+
+<!--<h1>I hope this works!</h1>-->
+
+
+<article class="media content-section" style="padding-top: 6vh; min-height: 30vh;">
+
+
+      <div class="media-body">
+
+        <h1>{{ question.title }}</h1>
+
+        <p>{{ question.content }}</p>
+
+        <p><small><a href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a></small></p>
+      </div>
+
+      <button onclick="answerPost()">Answer</button>
+
+  </article>
+
+
+  {% for response in question.responses.all %}
+
+  <div class="media-body">
+
+  <p>{{ response.content }}</p>
+
+  <p><small><a href="{% url 'view_profile' response.author.profile.slug %}">{{ response.author }}</a></small></p>
+    </div>
+
+  {% endfor %}
+
+  <div id="answer-post">
+    
+  <div class="media-body">
+    <form method="POST" enctype="multipart/form-data">
+        {{ response_form.media }}
+        {{ response_form | crispy}}
+        {% csrf_token %}
+        <input type="submit" id = 'awsb' value="Submit!">
+    </form>
+    </div>
+    </div>
+
+    <script>
+        $('#answer-post').hide()
+        $('#absw').prop('disabled', true)
+
+        function answerPost(){
+
+            $('#answer-post').show()
+            $('#absw').prop('disabled', false)
+
+        }
+    </script>
+
+{% endblock content %}
