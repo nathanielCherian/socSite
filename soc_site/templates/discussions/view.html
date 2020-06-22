@@ -27,15 +27,16 @@
 
 
   {% for response in question.responses.all %}
+    <article class="media content-section">
+    <div class="media-body">
 
-  <div class="media-body">
+    <p>{{ response.content }}</p>
 
-  <p>{{ response.content }}</p>
-
-  <p><small><a href="{% url 'view_profile' response.author.profile.slug %}">{{ response.author }}</a></small></p>
-    </div>
-
+    <p><small><a href="{% url 'view_profile' response.author.profile.slug %}">{{ response.author }}</a></small></p>
+        </div>
+    </article>
   {% endfor %}
+
 
   <div id="answer-post">
     

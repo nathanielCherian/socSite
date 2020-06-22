@@ -8,7 +8,23 @@
 
 <!--<h1>I hope this works!</h1>-->
 
-<h1>Discussion Board</h1>
+<div class="row">
+    <div class="col-10">
+    <h1>Discussion Board</h1>
+    </div>
+
+    <div class="col-2 justify-content-end">
+        <a href="{% url 'create_question' %}">Start Discussion</a>
+    </div>
+</div>
+
+<div>
+    <form method="GET" action="">
+        <input type="submit" name="filter" value="newest">
+        <input type="submit" name="filter" value="top">
+    </form>
+</div>
+
 
 {% for question in questions %}
 
@@ -25,7 +41,7 @@
         <h2><a class="article-title" href="{% url 'view_question' question.slug %}">{{ question.title }}</a></h2>
         <p class="article-content">{{ question.content }}</p>
 
-        <h3>{{ question.responses.all | length }} response {{ question.responses.all | length |pluralize}}</h3>
+        <h3>{{ question.responses.all | length }} response{{ question.responses.all | length |pluralize}}</h3>
 
         </div>
 

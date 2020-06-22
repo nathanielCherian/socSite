@@ -1,13 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Count
 from django.views.generic import ListView, DetailView
 from .models import Question
 from .forms import QuestionCreateForm, ResponseCreateForm
 
 class QuestionListView(ListView):
-    queryset = Question.objects.all()
     template_name = 'discussions/board.html'
     context_object_name = 'questions'
 
+    def get_queryset(self, **kwargs):
+
+        print(self.request.GET)
+
+        if self.request.GET.get('filter') == 'newest':
+            print("made it")
+            return Question.objects.all().order_by('-date_posted')
+
+        elif self.request.GET.get('filter') == 'top':
+            print("here i am")
+            return Question.objects.all().annotate(num_replies=Count('responses')).order_by('-num_replies')
+        else:
+            return Question.objects.all()
 
 def create_question(request):
 
