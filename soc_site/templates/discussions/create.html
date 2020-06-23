@@ -13,15 +13,33 @@
 <div class="content-section">
 
 
-        <form method="POST" enctype="multipart/form-data">
-            {{ form.media }}
-            {{ form | crispy}}
-            {% csrf_token %}
+    <div class="row">
+        <div class="col-2"></div>
+        
+        <div class="col-10">
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.media }}
+                {{ form | crispy}}
+                {% csrf_token %}
+    
+    
+                <p><input type="submit"  value="Save!"></p>
+            </form>
+        </div>
+    </div>
 
+        <style>
 
-            <p><input type="submit"  value="Save!"></p>
-        </form>
-
+            #id_title{
+              width: 30vw;
+            }
+            
+            #id_content{
+              width: 30vw;
+            }
+            
+            
+            </style>
 
 
 </div>

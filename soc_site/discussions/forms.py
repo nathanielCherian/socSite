@@ -19,3 +19,16 @@ class ResponseCreateForm(forms.ModelForm):
     class Meta:
         model = Response
         fields=('content',)
+
+
+class QuestionEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Question
+        fields=('title', 'content')
+
+    def clean(self):
+        title = self.cleaned_data.get('title')
+        if len(Question.objects.filter(title=title)) > 1:
+            raise forms.ValidationError("A question with this title already exists!")
+        return self.cleaned_data

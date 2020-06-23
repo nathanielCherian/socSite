@@ -14,14 +14,82 @@
 
       <div class="media-body">
 
+        <div id='question-body'>
+
+        <div class="row">
+        <div class="col-10">
         <h1>{{ question.title }}</h1>
-
-        <p>{{ question.content }}</p>
-
-        <p><small><a href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a></small></p>
       </div>
 
-      <button onclick="answerPost()">Answer</button>
+      <div class="col-1">
+        <button onclick="answerPost()" class="btn btn-primary">Answer</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <p>{{ question.content }}</p>
+        <p><small><a href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a></small></p>
+      </div>
+    </div>
+
+
+      <div class="row">
+        
+        <div class="col-6">
+        <p><small>{{ question.date_posted }}</small></p>
+      </div>
+
+      <div class="col-3"></div>
+
+      <div class="col-3">
+        {% if question.author == user %}
+
+        <a href="{% url 'delete_question' question.slug%}"><button class="btn btn-danger" style="margin-right: 1vw;">Delete</button></a>
+
+        <button class="btn btn-info" onclick="editQuestion()">Edit</button>
+
+
+        {% endif %}
+      </div>
+
+      </div>
+
+    </div>
+
+      {% if question_edit_form %}
+      <div class="row" id='edit-question'>
+
+        <div class="col-2"></div>
+
+        <div class="col-10">
+        <form method="POST" action="edit/">
+
+          {{ question_edit_form.media }}
+          {{ question_edit_form|crispy }}
+          {% csrf_token %}
+
+          <input type="submit" value="submit" style="margin-top: 1vh;">
+        </form>
+      </div>
+      <div class="col-2"></div>
+      </div>
+      {% endif %}
+
+    </div>
+
+<style>
+
+#id_title{
+  width: 30vw;
+}
+
+#id_content{
+  width: 30vw;
+}
+
+
+</style>
 
   </article>
 
@@ -30,10 +98,38 @@
     <article class="media content-section">
     <div class="media-body">
 
-    <p>{{ response.content }}</p>
+      <div class="row justify-content-end">
+          <p><small>{{ response.date_posted }}</small></p>
+          <div class="col-1"></div>
+      </div>
 
-    <p><small><a href="{% url 'view_profile' response.author.profile.slug %}">{{ response.author }}</a></small></p>
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <p>{{ response.content }}</p>
+        <p><small><a href="{% url 'view_profile' response.author.profile.slug %}">{{ response.author }}</a></small></p>
+      </div>
+
+
+  </div>
+
+
+      {% if response.author == user %}
+      <div class="row justify-content-end">
+        
+
+        <div class="col-2">
+        <a href="#"><button class="btn btn-danger" style="margin-right: 1vw;">Delete</button></a>
+
+        <a href="#"><button class="btn btn-info">Edit</button></a>
+      </div>
+      <div class="col-1"></div>
+
+
+      </div>
+      {% endif %}
+
+    </div>
+
     </article>
   {% endfor %}
 
@@ -59,6 +155,12 @@
             $('#answer-post').show()
             $('#absw').prop('disabled', false)
 
+        }
+
+        $('#edit-question').hide()
+        function editQuestion(){
+          $('#question-body').hide()
+          $('#edit-question').show()
         }
     </script>
 

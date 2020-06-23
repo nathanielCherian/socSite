@@ -1,13 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from feed.models import Post
 from taggit.models import Tag
 from .forms import UserRegistrationForm, PostCreateForm
 from .models import Profile
-
+from discussions.models import Question
 
 class ProfileDetailView(DetailView):
     model = Profile
@@ -103,8 +104,10 @@ def edit_post(request, post_slug):
 
 
 
-
-
+@login_required
+def my_discussions(request):
+    discussions = Question.objects.filter(author=request.user)
+    return render(request, 'account/my_discussions.html', {'questions':discussions})
 
 
 
