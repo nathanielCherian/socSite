@@ -8,9 +8,9 @@ in console...
 ``` git clone https://github.com/nathanielCherian/socSite```
 
 in virtual environment...
-``` pip install -r requirements.txt ```
+``` pip install -r requirements.txt ``` (install dependencies)
 
-``` python manage.py migrate ``` 
+``` python manage.py migrate ``` (to create local sqlite database)
 
 ``` python manage.py runserver ```
 
