@@ -22,7 +22,7 @@
       </div>
 
       <div class="col-1">
-        <button onclick="answerPost()" class="btn btn-primary">Answer</button>
+        <!--<button onclick="answerPost()" class="btn btn-primary">Answer</button>-->
       </div>
     </div>
 
@@ -88,6 +88,9 @@
   width: 30vw;
 }
 
+#response_content{
+  width: 100%;
+}
 
 </style>
 
@@ -118,7 +121,7 @@
         
 
         <div class="col-2">
-        <a href="#"><button class="btn btn-danger" style="margin-right: 1vw;">Delete</button></a>
+        <a href="{% url 'delete_reponse' question.slug response.pk%}" onclick="return confirm('Are you sure you want to irreversibly this response?')"><button class="btn btn-danger" style="margin-right: 1vw;">Delete</button></a>
 
         <a href="#"><button class="btn btn-info">Edit</button></a>
       </div>
@@ -134,19 +137,32 @@
   {% endfor %}
 
 
-  <div id="answer-post">
-    
-  <div class="media-body">
-    <form method="POST" enctype="multipart/form-data">
+
+  <article class="media content-section">
+    <div class="media-body">
+
+      {% if user.is_authenticated %}
+      <form method="POST" enctype="multipart/form-data">
         {{ response_form.media }}
         {{ response_form | crispy}}
         {% csrf_token %}
-        <input type="submit" id = 'awsb' value="Submit!">
+        <input type="submit" id = 'awsb' value="Post!" style="margin-top: 1vh; width: 7vw; float: right; margin-right: 2vw;">
     </form>
-    </div>
+    {% else %}
+
+    <h4>Log in or Create an Account to post an answer!</h4>
+
+    {% endif %}
+
+
     </div>
 
+    </article>
+
+
+
     <script>
+      /*
         $('#answer-post').hide()
         $('#absw').prop('disabled', true)
 
@@ -155,7 +171,7 @@
             $('#answer-post').show()
             $('#absw').prop('disabled', false)
 
-        }
+        } */
 
         $('#edit-question').hide()
         function editQuestion(){

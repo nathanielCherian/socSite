@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.contrib import messages
 from django.views.generic import ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Question
+from .models import Question, Response
 from .forms import QuestionCreateForm, ResponseCreateForm, QuestionEditForm
 
 class QuestionListView(ListView):
@@ -38,7 +39,7 @@ def create_question(request):
             new_question.author = user
             new_question.save()
 
-            return redirect('discussion_board')
+            return redirect('view_question', new_question.slug)
 
         else:
              return render(request, 'discussions/create.html', {'form':form})
@@ -68,7 +69,7 @@ def view_question(request, question_slug):
 
 
 
-    response_form = ResponseCreateForm()
+    response_form = ResponseCreateForm(auto_id='response_%s')
 
     question_edit_form = None
     if question.author == request.user:
@@ -100,7 +101,7 @@ def edit_question(request, question_slug):
 
 class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Question
-    success_url = '/'
+    success_url = '/discussions'
 
     def get_object(self):
         return self.model.objects.get(slug=self.kwargs['question_slug'])
@@ -111,3 +112,17 @@ class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == question.author:
             return True
         return False
+
+
+@login_required
+def delete_response(request, question_slug, response_pk):
+
+    response = Response.objects.filter(pk = response_pk, parent_question__slug = question_slug).first()
+
+    
+    if response:
+        if request.user == response.author:
+            response.delete()
+            messages.success(request, f'Response Deleted!')
+
+    return redirect('view_question', question_slug)

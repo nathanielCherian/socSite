@@ -20,6 +20,10 @@ class ResponseCreateForm(forms.ModelForm):
         model = Response
         fields=('content',)
 
+    def __init__(self, *args, **kwargs):
+        super(ResponseCreateForm, self).__init__(*args, **kwargs)
+        self.fields['content'].label = 'Post an answer!'
+
 
 class QuestionEditForm(forms.ModelForm):
 
