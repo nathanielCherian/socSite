@@ -45,10 +45,6 @@
       <div class="col-3">
         {% if question.author == user %}
 
-        <a href="{% url 'delete_question' question.slug%}"><button class="btn btn-danger" style="margin-right: 1vw;">Delete</button></a>
-
-        <button class="btn btn-info" onclick="editQuestion()">Edit</button>
-
 
         {% endif %}
       </div>
@@ -57,24 +53,6 @@
 
     </div>
 
-      {% if question_edit_form %}
-      <div class="row" id='edit-question'>
-
-        <div class="col-2"></div>
-
-        <div class="col-10">
-        <form method="POST" action="edit/">
-
-          {{ question_edit_form.media }}
-          {{ question_edit_form|crispy }}
-          {% csrf_token %}
-
-          <input type="submit" value="submit" style="margin-top: 1vh;">
-        </form>
-      </div>
-      <div class="col-2"></div>
-      </div>
-      {% endif %}
 
     </div>
 
@@ -88,7 +66,7 @@
   width: 30vw;
 }
 
-#response_content{
+#id_content{
   width: 100%;
 }
 
@@ -106,6 +84,21 @@
           <div class="col-1"></div>
       </div>
 
+
+      {% if response_pk == response.pk %}
+
+      <form method="POST">
+        {{ response_edit_form.media }}
+        {{ response_edit_form | crispy}}
+        {% csrf_token %}
+
+        <input type="submit" value="Save response!" style="margin-top: 1vh;">
+      </form>
+
+      <a href="{% url 'view_question' question.slug %}"><button class="btn btn-secondary">Back</button></a>
+
+      {% else%}
+
     <div class="row">
       <div class="col-12">
         <p>{{ response.content }}</p>
@@ -113,7 +106,7 @@
       </div>
 
 
-  </div>
+    </div>
 
 
       {% if response.author == user %}
@@ -122,13 +115,14 @@
 
         <div class="col-2">
         <a href="{% url 'delete_reponse' question.slug response.pk%}" onclick="return confirm('Are you sure you want to irreversibly this response?')"><button class="btn btn-danger" style="margin-right: 1vw;">Delete</button></a>
-
         <a href="{% url 'edit_response' question.slug response.pk %}"><button class="btn btn-info">Edit</button></a>
       </div>
       <div class="col-1"></div>
 
 
       </div>
+      {% endif %}
+
       {% endif %}
 
     </div>
@@ -138,46 +132,7 @@
 
 
 
-  <article class="media content-section">
-    <div class="media-body">
-
-      {% if user.is_authenticated %}
-      <form method="POST" enctype="multipart/form-data">
-        {{ response_form.media }}
-        {{ response_form | crispy}}
-        {% csrf_token %}
-        <input type="submit" id = 'awsb' value="Post!" style="margin-top: 1vh; width: 7vw; float: right; margin-right: 2vw;">
-    </form>
-    {% else %}
-
-    <h4>Log in or Create an Account to post an answer!</h4>
-
-    {% endif %}
 
 
-    </div>
-
-    </article>
-
-
-
-    <script>
-      /*
-        $('#answer-post').hide()
-        $('#absw').prop('disabled', true)
-
-        function answerPost(){
-
-            $('#answer-post').show()
-            $('#absw').prop('disabled', false)
-
-        } */
-
-        $('#edit-question').hide()
-        function editQuestion(){
-          $('#question-body').hide()
-          $('#edit-question').show()
-        }
-    </script>
 
 {% endblock content %}

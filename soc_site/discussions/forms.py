@@ -36,3 +36,15 @@ class QuestionEditForm(forms.ModelForm):
         if len(Question.objects.filter(title=title)) > 1:
             raise forms.ValidationError("A question with this title already exists!")
         return self.cleaned_data
+
+
+
+class ResponseEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Response
+        fields=('content',)
+
+    def __init__(self, *args, **kwargs):
+        super(ResponseEditForm, self).__init__(*args, **kwargs)
+        self.fields['content'].label = 'Edit your answer!'

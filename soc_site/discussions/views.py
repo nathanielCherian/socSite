@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.views.generic import ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Question, Response
-from .forms import QuestionCreateForm, ResponseCreateForm, QuestionEditForm
+from .forms import QuestionCreateForm, ResponseCreateForm, QuestionEditForm, ResponseEditForm
 
 class QuestionListView(ListView):
     template_name = 'discussions/board.html'
@@ -85,11 +85,10 @@ def edit_question(request, question_slug):
     if request.method == 'POST':
     
         question_edit_form = QuestionEditForm(request.POST, instance=question)
-        print(question_edit_form)
 
 
         if question_edit_form.is_valid() and question.author == request.user:
-            print("hello there")
+
             q = question_edit_form.save(commit=False)
             q.author = question.author
             q.save()
@@ -125,4 +124,40 @@ def delete_response(request, question_slug, response_pk):
             response.delete()
             messages.success(request, f'Response Deleted!')
 
+    return redirect('view_question', question_slug)
+
+
+
+
+@login_required
+def edit_response(request, question_slug, response_pk):
+
+    response = Response.objects.filter(pk = response_pk, parent_question__slug = question_slug).first()
+
+    if response:
+        if request.user == response.author:
+
+            question = get_object_or_404(Question, slug=question_slug)
+
+
+            if request.method == 'POST':
+
+                respose_edit_form = ResponseEditForm(request.POST, instance=response)
+
+                if respose_edit_form.is_valid():
+                    edited_r = respose_edit_form.save(commit=False)
+                    edited_r.author = request.user
+                    edited_r.save()
+                    messages.success(request, f'Response Updated Successfully!')
+                    return redirect('view_question', question.slug)
+
+
+            response_edit_form = ResponseEditForm(instance=response)
+
+            return render(request, 'discussions/view_edit.html', {'question':question, 'response_pk':response_pk, 'response_edit_form':response_edit_form})
+
+
+
+
+    
     return redirect('view_question', question_slug)
