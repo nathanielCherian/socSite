@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load discussions_tags%}
 
 
 {% block content %}
@@ -27,8 +28,8 @@
     </form>
 </div>
 
-
 {% for question in questions %}
+<script>console.log('{{question.date_posted | past_time }}')</script>
 
 <article class="media content-section" style="min-height: 20vh;">
 

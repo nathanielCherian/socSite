@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Question, Response
 
 @admin.register(Question)
-class PostAdmin(admin.ModelAdmin):
+class QuestionAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug', 'author', 'date_posted')
     list_filter = ('date_posted', 'author')
     search_fields = ('title', 'content')
@@ -14,7 +14,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Response)
 class ResponseAdmin(admin.ModelAdmin):
-    list_display = ('parent_question', 'author', 'date_posted', 'rating')
+    list_display = ('parent_question', 'author', 'date_posted', 'rating', 'active')
     list_filter = ('date_posted', 'author')
     search_fields = ('parent_question', 'content', 'rating')
     raw_id_fields = ('author','parent_question')

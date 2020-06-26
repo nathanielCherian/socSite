@@ -3,13 +3,23 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
+
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super(ActiveManager, self).get_queryset().filter(active=True)
+
+
 class Question(models.Model):
     
+    objects = models.Manager() #preserving old manager
+    actives = ActiveManager()
+
     title = models.CharField(max_length=300, unique=True)
     slug = models.SlugField(max_length=350)
     content = models.TextField()
     updated = models.DateTimeField(auto_now=True)
     date_posted = models.DateTimeField(default=timezone.now)
+    active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
     def __str__(self):
@@ -32,10 +42,15 @@ class Question(models.Model):
 
 class Response(models.Model):
 
+    objects = models.Manager() #preserving old manager
+    actives = ActiveManager()
+
+    
     content = models.TextField()
     rating = models.IntegerField(default=0)
     updated = models.DateTimeField(auto_now=True)
     date_posted = models.DateTimeField(default=timezone.now)
+    active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     parent_question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='responses')
 

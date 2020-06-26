@@ -16,15 +16,15 @@ class QuestionListView(ListView):
         print(self.request.GET)
 
         if self.request.GET.get('filter') == 'newest':
-            return Question.objects.all().order_by('-date_posted')
+            return Question.actives.all().order_by('-date_posted')
 
         elif self.request.GET.get('filter') == 'top':
-            return Question.objects.all().annotate(num_replies=Count('responses')).order_by('-num_replies')
+            return Question.actives.all().annotate(num_replies=Count('responses')).order_by('-num_replies')
 
         elif self.request.GET.get('filter') == 'random':
-            return Question.objects.all().order_by('?')
+            return Question.actives.all().order_by('?')
         else:
-            return Question.objects.all()
+            return Question.actives.all()
 
 @login_required
 def create_question(request):
@@ -51,7 +51,7 @@ def create_question(request):
 
 
 def view_question(request, question_slug):
-    question = get_object_or_404(Question, slug=question_slug)
+    question = get_object_or_404(Question, slug=question_slug, active=True)
 
     if request.method == 'POST':
 
@@ -80,7 +80,7 @@ def view_question(request, question_slug):
 
 @login_required
 def edit_question(request, question_slug):
-    question = get_object_or_404(Question, slug=question_slug)
+    question = get_object_or_404(Question, slug=question_slug, active=True)
 
     if request.method == 'POST':
     
@@ -116,7 +116,7 @@ class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 @login_required
 def delete_response(request, question_slug, response_pk):
 
-    response = Response.objects.filter(pk = response_pk, parent_question__slug = question_slug).first()
+    response = Response.actives.filter(pk = response_pk, parent_question__slug = question_slug).first()
 
     
     if response:
@@ -132,12 +132,12 @@ def delete_response(request, question_slug, response_pk):
 @login_required
 def edit_response(request, question_slug, response_pk):
 
-    response = Response.objects.filter(pk = response_pk, parent_question__slug = question_slug).first()
+    response = Response.actives.filter(pk = response_pk, parent_question__slug = question_slug).first()
 
     if response:
         if request.user == response.author:
 
-            question = get_object_or_404(Question, slug=question_slug)
+            question = get_object_or_404(Question, slug=question_slug, active=True)
 
 
             if request.method == 'POST':
@@ -157,7 +157,4 @@ def edit_response(request, question_slug, response_pk):
             return render(request, 'discussions/view_edit.html', {'question':question, 'response_pk':response_pk, 'response_edit_form':response_edit_form})
 
 
-
-
-    
     return redirect('view_question', question_slug)
