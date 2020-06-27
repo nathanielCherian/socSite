@@ -1,35 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
-{% load discussions_tags%}
 
 
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'detail.css' %}">
 
-<!--<h1>I hope this works!</h1>-->
-
-<div class="row">
-    <div class="col-10">
-    <h1>Discussion Board</h1>
-    </div>
-
-    <div class="col-2 justify-content-end">
-        <a href="{% url 'create_question' %}">Start Discussion</a>
-    </div>
-</div>
-
 <div>
-    <form method="GET" action="">
-        <input type="submit" name="filter" value="newest">
-        <input type="submit" name="filter" value="top">
-        <input type="submit" name="filter" value="random">
+{% if questions|length > 0 %}
+<h1>Discussions for "{{ search_term }}" ({{ questions|length }})</h1>
+{% else %}
+<h1>Sorry there are no Discussions that contain "{{ search_term }}"</h1>
+<h2 style="margin-top: 3vh;">Why not <a href="{% url 'create_question' %}">Ask</a> the Community</h2>
+{% endif %}
 
-    </form>
+<div class="row" style="margin-bottom: 3vh;">
+    <div class="col-10">
+        <a href="/search/?search={{search_term}}&filter=Posts"><button>Articles</button></a>
+        <a href="/search/?search={{search_term}}&filter=Questions"><button style="border-bottom: 2px solid red;">Discussions</button></a>
+        <a href="/posts/{{search_term | lower }}/"><button>Tags</button></a>
+    </div>
 </div>
+
 
 {% for question in questions %}
-<script>console.log('{{question.date_posted | past_time }}')</script>
 
 <article class="media content-section" style="min-height: 20vh;">
 
@@ -46,9 +40,7 @@
 
         <h3>{{ question.responses.all | length }} response{{ question.responses.all | length |pluralize}}</h3>
 
-        <div class="row justify-content-end">
-            <small class="text-muted col-6" style="text-align: right;">{{ question.date_posted | past_time }}</small>
-        </div>
+
 
         </div>
 
@@ -56,6 +48,6 @@
 
 {%  endfor %}
 
-
+</div>
 
 {% endblock content %}

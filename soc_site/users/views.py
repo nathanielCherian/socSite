@@ -106,7 +106,7 @@ def edit_post(request, post_slug):
 
 @login_required
 def my_discussions(request):
-    discussions = Question.objects.filter(author=request.user)
+    discussions = Question.actives.filter(author=request.user)
     return render(request, 'account/my_discussions.html', {'questions':discussions})
 
 

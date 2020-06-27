@@ -11,8 +11,16 @@
 <h1>Posts for "{{ search_term }}" ({{ posts|length }})</h1>
 {% else %}
 <h1>Sorry there are no posts that contain "{{ search_term }}"</h1>
-<h2 style="margin-top: 3vh;">Why not <a href="{% url 'create_post' %}">Make one</a>...</h2>
+<h2 style="margin-top: 3vh;">Why not <a href="{% url 'create_post' %}">Make one</a>... </h2>
 {% endif %}
+
+<div class="row" style="margin-bottom: 3vh;">
+    <div class="col-10">
+        <a href="/search/?search={{search_term}}&filter=Posts"><button style="border-bottom: 2px solid red;">Articles</button></a>
+        <a href="/search/?search={{search_term}}&filter=Questions"><button>Discussions</button></a>
+        <a href="/posts/{{search_term | lower }}/"><button>Tags</button></a>
+    </div>
+</div>
 
 {% for post in posts%}
 

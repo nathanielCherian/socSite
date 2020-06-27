@@ -12,6 +12,21 @@ def past_time_parse(text):
     t = text
     now = timezone.now()
     difference = (now - text).total_seconds()
-    #dt = parse(text)
-    #date = datetime.datetime.strptime(str(text), '%Y-%m-%d %H:%M:%S')
-    return mark_safe(f"{difference}")
+
+    duration = datetime.timedelta(seconds=difference)
+
+    days, seconds = duration.days, duration.seconds
+
+    if days > 365:
+        return mark_safe(f"{int(days/365)} year(s) ago")
+
+    if days > 0:
+        return mark_safe(f"{days} day(s) ago")
+    
+    if seconds >= 3600:
+        return mark_safe(f"{int(seconds/3600)} hour(s) ago")
+
+    if seconds >= 60:
+        return mark_safe(f"{int(seconds/60)} minute(s) ago")
+
+    return mark_safe(f"{seconds} second(s) ago")

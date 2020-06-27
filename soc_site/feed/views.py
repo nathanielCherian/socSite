@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from .models import Post
+from discussions.models import Question
 from users.models import Profile
 
 
@@ -27,9 +28,20 @@ def post_detail_view(request, author, post):
 
 def get_post_queryset(request, query=None):
 
-    posts = Post.published.all()
+    questions = Question.actives.all()
 
     if 'search' in request.GET:
+
         search_term = request.GET['search']
-        posts = posts.filter(Q(title__icontains=search_term) | Q(summary__icontains=search_term))
+
+        if request.GET.get('filter') == 'Questions':
+            questions = questions.filter(Q(title__icontains=search_term) | Q(content__icontains=search_term))
+            print(questions)
+            return render(request, 'feed/query_questions.html', {'questions':questions, 'search_term':search_term})
+
+        #if request.GET.get('filter') == 'Posts': this will be the default
+
+        posts = Post.published.filter(Q(title__icontains=search_term) | Q(summary__icontains=search_term))
         return render(request, 'feed/query_posts.html', {'posts':posts, 'search_term':search_term})
+
+        return render(request, 'feed/query_posts.html', {'posts':posts, 'questions':questions, 'search_term':search_term})
