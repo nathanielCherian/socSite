@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 from feed.models import Post
 from taggit.models import Tag
 from .forms import UserRegistrationForm, PostCreateForm
-from .models import Profile
+from .models import Profile, Notification
 from discussions.models import Question
 
 class ProfileDetailView(DetailView):
@@ -109,6 +109,17 @@ def my_discussions(request):
     discussions = Question.actives.filter(author=request.user)
     return render(request, 'account/my_discussions.html', {'questions':discussions})
 
+
+
+@login_required
+def my_notifications(request):
+    notifications = Notification.inqueue.filter(user=request.user.profile)
+    notis = [x.__dict__ for x in notifications]
+
+    #notifications.update(noti_que=False)
+
+    print(notis)
+    return render(request, 'account/my_notifications.html', {'notifications':notifications})
 
 
 def view_by_tag(request, tag_slug):

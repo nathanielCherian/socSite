@@ -1,4 +1,5 @@
 {% load static %}
+{% load discussions_tags%}
 
 <html>
     <head>
@@ -10,6 +11,8 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'main.css' %}">
+        <link rel="stylesheet" href="{% static 'icon.css' %}">
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -47,6 +50,7 @@
 
                     <img class="rounded-circle article-img" src="{{ user.profile.photo.url }}" style="height: 3rem; width: 3rem;">
 
+
                     <div>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,9 +64,16 @@
                         <a class="dropdown-item" href="{% url 'profile_settings' %}">Settings</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                       </div>
-                    </li>                    
-                  
+                    </li>
                   </div>
+
+                  <script>console.log(' {{ request.user.profile.notifications | in_queue }}')</script>
+                  {% if request.user.profile.notifications|in_queue %}
+                  <a href="{% url 'my_notifications' %}" class="nav-item nav-link" style="font-family: alarm;">&#xe800;<sub style="font-size: 3rem; font-weight: bolder; color: red;">.</sub></a>
+                  {% else %}
+                  <a href="{% url 'my_notifications' %}" class="nav-item nav-link" style="font-family: alarm;">&#xe800;</a>
+                  {% endif %}
+
 
                     {% else %}
                     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>

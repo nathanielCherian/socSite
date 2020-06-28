@@ -30,3 +30,9 @@ def past_time_parse(text):
         return mark_safe(f"{int(seconds/60)} minute(s) ago")
 
     return mark_safe(f"{seconds} second(s) ago")
+
+
+
+@register.filter(name='in_queue')
+def get_in_queue(notifications):
+    return notifications.filter(noti_que=True)

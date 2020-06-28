@@ -4,6 +4,7 @@ from django.db.models import Count
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from users.models import Notification
 from .models import Question, Response
 from .forms import QuestionCreateForm, ResponseCreateForm, QuestionEditForm, ResponseEditForm
 
@@ -63,6 +64,11 @@ def view_question(request, question_slug):
             new_response.author = request.user
             new_response.parent_question = question
             new_response.save()
+
+            noti = Notification(title=f'{request.user} responded to your question "{question.title[:50]}"!', user=question.author.profile)
+            noti.save()
+
+
             return redirect('view_question', question.slug)
 
 

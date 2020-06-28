@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'detail.css' %}">
+
+<!--<h1>I hope this works!</h1>-->
+
+<div class="row" style="margin-bottom: 5vh;">
+    <div class="col-10">
+    <h1>Notifications</h1>
+    </div>
+
+    <div class="col-2 justify-content-end">
+        <h3>({{ notifications | length }})</h3>
+
+    </div>
+</div>
+
+
+
+<script>console.log("{{ notifications | safe }}")</script>
+
+
+{% for notification in notifications %}
+
+<article class="media content-section">
+
+      <div class="media-body">
+        <div class="article-metadata">
+            <div class="row justify-content-end">
+                <small class="text-muted col-6" style="text-align: right;">{{ notificatio.date_created }}</small>
+            </div>
+        </div>
+
+        <h2>{{ notification.title }}</h2>
+
+        {% if notification.description %}
+        <p class="article-content">{{ notification.description }}</p>
+        {% endif %}
+
+        </div>
+
+    </article>
+
+{%  endfor %}
+
+
+    <div class="media-body" style="margin-top: 3vh;">
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <h3 style="text-align: center;">Your all caught up :)</h3>
+        </div>
+    </div>
+    </div>
+
+
+{% endblock content %}
