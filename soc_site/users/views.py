@@ -119,7 +119,10 @@ def my_notifications(request):
     #notifications.update(noti_que=False)
 
     print(notis)
-    return render(request, 'account/my_notifications.html', {'notifications':notifications})
+    x = render(request, 'account/my_notifications.html', {'notifications':notifications})
+    
+    notifications.update(noti_que=False)
+    return x
 
 
 def view_by_tag(request, tag_slug):
