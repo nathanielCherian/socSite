@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.contrib.auth.models import User
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -9,6 +9,7 @@ from taggit.models import Tag
 from .forms import UserRegistrationForm, PostCreateForm
 from .models import Profile, Notification
 from discussions.models import Question
+import json
 
 class ProfileDetailView(DetailView):
     model = Profile
@@ -116,12 +117,10 @@ def my_notifications(request):
     notifications = Notification.inqueue.filter(user=request.user.profile)
     notis = [x.__dict__ for x in notifications]
 
-    #notifications.update(noti_que=False)
-
-    print(notis)
     x = render(request, 'account/my_notifications.html', {'notifications':notifications})
-    
+
     notifications.update(noti_que=False)
+
     return x
 
 

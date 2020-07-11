@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from users.models import Notification
+from users.models import Notification, Vote
 from .models import Question, Response
 from .forms import QuestionCreateForm, ResponseCreateForm, QuestionEditForm, ResponseEditForm
+import json
 
 class QuestionListView(ListView):
     template_name = 'discussions/board.html'
@@ -164,3 +165,69 @@ def edit_response(request, question_slug, response_pk):
 
 
     return redirect('view_question', question_slug)
+
+
+@login_required
+def upvote(request, question_slug):
+
+    result = {
+        'success':True,
+        'code':''
+    }
+
+    question = get_object_or_404(Question, slug=question_slug, active=True)
+
+    votes = question.votes.filter(user=request.user)
+
+    if votes:
+        vote = votes.first()
+
+        if vote.family == True:
+            vote.delete()
+            result['code'] = 'REMOVED_UPVOTE'
+
+        else:
+            vote.family = True
+            vote.save()
+            result['code'] = 'DOWNVOTE_TO_UPVOTE'
+
+    else:
+        vote = Vote(content_object=question, user=request.user, family=True)
+        vote.save()
+        result['code'] = 'ADDED_UPVOTE'
+
+
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+@login_required
+def downvote(request, question_slug):
+
+    result = {
+        'success':True,
+        'code':''
+    }
+
+    question = get_object_or_404(Question, slug=question_slug, active=True)
+
+    votes = question.votes.filter(user=request.user)
+
+    if votes:
+        vote = votes.first()
+
+        if vote.family == False:
+            vote.delete()
+            result['code'] = 'REMOVED_DOWNVOTE'
+
+        else:
+            vote.family = False
+            vote.save()
+            result['code'] = 'UPVOTE_TO_DOWNVOTE'
+            
+    else:
+        vote = Vote(content_object=question, user=request.user, family=False)
+        vote.save()
+        result['code'] = 'ADDED_DOWNVOTE'
+
+
+    return HttpResponse(json.dumps(result), content_type="application/json")

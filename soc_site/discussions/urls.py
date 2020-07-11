@@ -9,5 +9,7 @@ urlpatterns = [
     path('<slug:question_slug>/edit-response/<int:response_pk>/', views.edit_response, name='edit_response'),
     path('<slug:question_slug>/edit/', views.edit_question, name='edit_question'),
     path('<slug:question_slug>/delete/', views.QuestionDeleteView.as_view(), name='delete_question'),
+    path('<slug:question_slug>/upvote/', views.upvote, name='upvote'),
+    path('<slug:question_slug>/downvote/', views.downvote, name='upvote'),
 
 ]

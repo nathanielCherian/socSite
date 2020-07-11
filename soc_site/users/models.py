@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
@@ -50,3 +52,16 @@ class Notification(models.Model):
 
     class Meta:
         ordering=('-date_created',)
+
+
+
+class Vote(models.Model):
+    family = models.BooleanField(null=False)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField(blank=True)
+    content_object = GenericForeignKey('content_type', 'object_id')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"VOTE: {self.family}, {self.user}"
+

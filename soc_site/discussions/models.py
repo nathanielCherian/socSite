@@ -2,7 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-
+from django.contrib.contenttypes.fields import GenericRelation
+from users.models import Vote
 
 class ActiveManager(models.Manager):
     def get_queryset(self):
@@ -21,6 +22,7 @@ class Question(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    votes = GenericRelation(Vote)
 
     def __str__(self):
         return self.title
@@ -53,6 +55,7 @@ class Response(models.Model):
     active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     parent_question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='responses')
+    votes = GenericRelation(Vote)
 
     def __str__(self):
         return self.content[:100]

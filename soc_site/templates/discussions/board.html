@@ -28,6 +28,8 @@
     </form>
 </div>
 
+
+
 {% for question in questions %}
 <script>console.log('{{question.date_posted | past_time }}')</script>
 
@@ -52,10 +54,96 @@
 
         </div>
 
+        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
+        <button onclick="downvoteClick('{{ question.slug }}', this)" class ="downvote">Downvote!</button>
+
     </article>
 
 {%  endfor %}
 
+
+
+
+<script>
+
+    function upvoteClick(slug, object){
+
+        var $upvote = $(object)
+        var $downvote = $upvote.parent().find('.downvote')
+
+        console.log(slug)
+        $.ajax({
+            url: 'http://localhost:8000/discussions/' + slug + '/upvote/',
+            success: function(data){
+                if (data.success){
+                    console.log(data.code)
+
+                    if (data.code == 'ADDED_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'blue')
+
+                    }else if(data.code == 'DOWNVOTE_TO_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'blue') 
+
+                    }else if(data.code == 'REMOVED_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'initial') 
+                    }
+
+
+                    console.log($upvote)
+                    console.log($downvote)
+
+                }else{
+                    console.log("Failed!")
+                }
+            },
+            error: function(){
+                console.log("ajax failure")
+            }
+        });
+    }
+
+
+    function downvoteClick(slug, object){
+
+        var $downvote = $(object)
+        var $upvote = $downvote.parent().find('.upvote')
+
+        $.ajax({
+            url: 'http://localhost:8000/discussions/' + slug + '/downvote/',
+            success: function(data){
+
+                if (data.success){
+                    console.log(data.code)
+
+                    if (data.code == 'ADDED_DOWNVOTE'){
+                        $downvote.css("background-color", 'blue')
+                        $upvote.css("background-color", 'initial')
+
+                    }else if(data.code == 'UPVOTE_TO_DOWNVOTE'){
+                        $downvote.css("background-color", 'blue')
+                        $upvote.css("background-color", 'initial') 
+
+                    }else if(data.code == 'REMOVED_DOWNVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'initial') 
+                    }
+
+
+
+                }else{
+                    console.log("Failed!")
+                }
+            },
+            error: function(){
+                console.log("ajax failure")
+            }
+        });
+    }
+
+</script>
 
 
 {% endblock content %}
