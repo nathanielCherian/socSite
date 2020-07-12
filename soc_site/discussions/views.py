@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -25,8 +25,12 @@ class QuestionListView(ListView):
 
         elif self.request.GET.get('filter') == 'random':
             return Question.actives.all().order_by('?')
+
+        elif self.request.GET.get('filter') == 'votes':
+            return Question.actives.all().annotate(num_upvotes=Count('votes', filter=Q(votes__family=True))).order_by('-num_upvotes')
+
         else:
-            return Question.actives.all()
+            return Question.actives.all().order_by('-date_posted')
 
 @login_required
 def create_question(request):
@@ -172,7 +176,8 @@ def upvote(request, question_slug):
 
     result = {
         'success':True,
-        'code':''
+        'code':'',
+        'upvotes':0
     }
 
     question = get_object_or_404(Question, slug=question_slug, active=True)
@@ -196,6 +201,11 @@ def upvote(request, question_slug):
         vote.save()
         result['code'] = 'ADDED_UPVOTE'
 
+        noti = Notification(title=f'{request.user} upvoted your question! "{question.title[:50]}"!', user=question.author.profile)
+        noti.save()
+
+
+    result['upvotes'] = question.votes.filter(family=True).count()
 
     return HttpResponse(json.dumps(result), content_type="application/json")
 
@@ -231,3 +241,28 @@ def downvote(request, question_slug):
 
 
     return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+@login_required
+def response_upvote(request, question_slug, response_pk):
+
+    result = {
+        'success':True,
+        'code':''
+    }
+
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+@login_required
+def response_downvote(request, question_slug, response_pk):
+
+    result = {
+        'success':True,
+        'code':''
+    }
+
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+

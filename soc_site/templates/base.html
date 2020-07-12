@@ -70,7 +70,8 @@
                     </li>
                   </div>
 
-                  <script>console.log(' {{ request.user.profile.notifications | in_queue }}')</script>
+                  <!--<script>console.log(' {{ request.user.profile.notifications | in_queue }}')</script>-->
+
                   {% if request.user.profile.notifications|in_queue %}
                   <a href="{% url 'my_notifications' %}" class="nav-item nav-link" style="font-family: alarm;">&#xe800;<sub style="font-size: 3rem; font-weight: bolder; color: red;">.</sub></a>
                   {% else %}

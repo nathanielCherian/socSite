@@ -11,11 +11,11 @@
 
 <div class="row">
     <div class="col-10">
-    <h1>Discussion Board</h1>
+    <h1>Discussions</h1>
     </div>
 
     <div class="col-2 justify-content-end">
-        <a href="{% url 'create_question' %}">Start Discussion</a>
+        <a href="{% url 'create_question' %}"><button class="btn">Start Discussion</button></a>
     </div>
 </div>
 
@@ -24,6 +24,7 @@
         <input type="submit" name="filter" value="newest">
         <input type="submit" name="filter" value="top">
         <input type="submit" name="filter" value="random">
+        <input type="submit" name="filter" value="votes">
 
     </form>
 </div>
@@ -31,43 +32,94 @@
 
 
 {% for question in questions %}
-<script>console.log('{{question.date_posted | past_time }}')</script>
 
 <article class="media content-section" style="min-height: 20vh;">
 
       <div class="media-body">
+
+        <div class="row">
+
+            <div class="col-2">
+                
+                <div class="row" style="text-align: center;">
+                    <div class="col-12">
+                        <h3 style="text-align: center;">{{ question.responses.all | length }}</h3>
+                    </div>
+                </div>
+
+                <div class="row" style="text-align: center;">
+                    <div class="col-12" style="text-align: center;">
+                        <h4>Answer{{ question.responses.all | length |pluralize}}</h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12" style="text-align: center;">
+                        <h3 class="vote-counter">{{ question | get_upvotes | length }}</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12" style="text-align: center;">
+                        <h4>Upvote{{ question.votes.all | length |pluralize}}</h4>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-10">
+
+
+                <div class="row">
+                    <div class="col-10">
+                        <h2><a class="article-title" href="{% url 'view_question' question.slug %}">{{ question.title }}</a></h2>
+                    </div>
+                    <div class="col-2" style="text-align: right;">
+                        <small class="text-muted" style="text-align: right;">{{ question.date_posted | past_time }}</small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <p class="article-content">{{ question.content }}</p>
+                    </div>
+                </div>
+        
+
+                <div class="row justify-content-end">
+                    <div class="col-3" style="text-align: end;">
+                        {% if question|get_votes:user == True %}
+                        <!--<script>console.log('{{ question | get_votes:user }}')</script>-->
+                        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote' style="background-color: blue;">Upvote!</button>
+                        {% elif question|get_votes:user == False %}
+                        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
+                        {% else %}
+                        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row justify-content-end" style="margin-top: 3%;">
+                    <div class="col-3" style="text-align: right;">
+                        <a href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+
+        <!--
         <div class="article-metadata">
             <div class="row">
                 <a class="col-6" href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a>
                 <small class="text-muted col-6" style="text-align: right;">{{ question.date_posted }}</small>
             </div>
-        </div>
+        </div>-->
 
-        <h2><a class="article-title" href="{% url 'view_question' question.slug %}">{{ question.title }}</a></h2>
-        <p class="article-content">{{ question.content }}</p>
-
-        <h3>{{ question.responses.all | length }} response{{ question.responses.all | length |pluralize}}</h3>
-
-        <div class="row justify-content-end">
-            <small class="text-muted col-6" style="text-align: right;">{{ question.date_posted | past_time }}</small>
-        </div>
 
         </div>
-
-
-        {% if question|get_votes:user == True %}
-        <!--<script>console.log('{{ question | get_votes:user }}')</script>-->
-        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote' style="background-color: blue;">Upvote!</button>
-        <button onclick="downvoteClick('{{ question.slug }}', this)" class ="downvote">Downvote!</button>
-        {% elif question|get_votes:user == False %}
-        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
-        <button onclick="downvoteClick('{{ question.slug }}', this)" class ="downvote" style="background-color: blue;">Downvote!</button>
-        {% else %}
-        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
-        <button onclick="downvoteClick('{{ question.slug }}', this)" class ="downvote">Downvote!</button>
-        {% endif %}
-
-
 
     </article>
 
@@ -83,24 +135,36 @@
         var $upvote = $(object)
         var $downvote = $upvote.parent().find('.downvote')
 
+        var $counter = $upvote.parent().parent().parent().parent().find('.vote-counter')
+
         console.log(slug)
         $.ajax({
             url: 'http://localhost:8000/discussions/' + slug + '/upvote/',
             success: function(data){
                 if (data.success){
                     console.log(data.code)
+                    console.log(data)
+
 
                     if (data.code == 'ADDED_UPVOTE'){
                         $downvote.css("background-color", 'initial')
                         $upvote.css("background-color", 'blue')
 
+                        $counter.text(parseInt($counter.text() + 1))
+
                     }else if(data.code == 'DOWNVOTE_TO_UPVOTE'){
                         $downvote.css("background-color", 'initial')
                         $upvote.css("background-color", 'blue') 
 
+                        $counter.text(parseInt($counter.text() + 1))
+
+
                     }else if(data.code == 'REMOVED_UPVOTE'){
                         $downvote.css("background-color", 'initial')
                         $upvote.css("background-color", 'initial') 
+
+                        $counter.text(parseInt($counter.text() - 1))
+
                     }
 
 

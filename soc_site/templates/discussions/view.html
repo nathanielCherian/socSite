@@ -108,13 +108,62 @@
       </div>
 
     <div class="row">
-      <div class="col-12">
+
+      <div class="col-10">
         <p>{{ response.content }}</p>
         <p><small><a href="{% url 'view_profile' response.author.profile.slug %}">{{ response.author }}</a></small></p>
       </div>
 
+      <div class="col-2">
+        <div class="row">
+          <div class="col-12">
+            <p>upvotes : {{ response | get_upvotes | length}}</p>
+          </div>
+        </div>
+        
 
-  </div>
+        {% if response|get_votes:user == True %}
+        <div class="row">
+          <button onclick="upvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: blue;">Upvote!</button>
+        </div>
+
+        <div class="row">
+          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: initial;">Downvote!</button>
+        </div>
+
+        {% elif response|get_votes:user == False %}
+
+        <div class="row">
+          <button onclick="upvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: initial;">Upvote!</button>
+        </div>
+
+        <div class="row">
+          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: blue;">Downvote!</button>
+        </div>
+
+        {% else %}
+        <div class="row">
+          <button onclick="upvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: initial;">Upvote!</button>
+        </div>
+
+        <div class="row">
+          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: initial;">Downvote!</button>
+        </div>
+
+        {% endif %}
+
+
+
+
+        <div class="row">
+          <div class="col-12">
+            <p>downvotes: {{ response | get_downvotes | length }}</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
 
 
       {% if response.author == user %}
@@ -163,16 +212,7 @@
 
 
     <script>
-      /*
-        $('#answer-post').hide()
-        $('#absw').prop('disabled', true)
 
-        function answerPost(){
-
-            $('#answer-post').show()
-            $('#absw').prop('disabled', false)
-
-        } */
 
         $('#edit-question').hide()
         function editQuestion(){
@@ -180,5 +220,54 @@
           $('#edit-question').show()
         }
     </script>
+
+
+    <script>
+
+
+    function upvoteClick(slug, pk, object){
+
+      console.log(slug + " " + pk)
+        $.ajax({
+            url: 'http://localhost:8000/discussions/' + slug + '/' + pk + '/upvote/',
+            success: function(data){
+              console.log("success")
+            },
+            error: function(){
+                console.log("ajax failure")
+            }
+        });
+
+      }
+
+    function downvoteClick(slug, pk, object){
+      console.log(slug + " " + pk)
+        $.ajax({
+            url: 'http://localhost:8000/discussions/' + slug + '/' + pk + '/downvote/',
+            success: function(data){
+              console.log("success")
+            },
+            error: function(){
+                console.log("ajax failure")
+            }
+        });
+
+      }
+
+      
+
+
+    </script>
+
+
+
+
+
+    
+
+
+
+
+
 
 {% endblock content %}

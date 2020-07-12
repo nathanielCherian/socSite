@@ -48,3 +48,14 @@ def get_votes(object_, user):
         return votes.first().family
     else:
         return None
+
+
+@register.filter(name='get_upvotes')
+def get_upvotes(object_):
+    votes = object_.votes.filter(family=True)
+    return votes
+
+@register.filter(name='get_downvotes')
+def get_downvotes(object_):
+    votes = object_.votes.filter(family=False)
+    return votes
