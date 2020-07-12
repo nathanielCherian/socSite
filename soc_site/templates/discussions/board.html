@@ -54,8 +54,20 @@
 
         </div>
 
+
+        {% if question|get_votes:user == True %}
+        <!--<script>console.log('{{ question | get_votes:user }}')</script>-->
+        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote' style="background-color: blue;">Upvote!</button>
+        <button onclick="downvoteClick('{{ question.slug }}', this)" class ="downvote">Downvote!</button>
+        {% elif question|get_votes:user == False %}
+        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
+        <button onclick="downvoteClick('{{ question.slug }}', this)" class ="downvote" style="background-color: blue;">Downvote!</button>
+        {% else %}
         <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
         <button onclick="downvoteClick('{{ question.slug }}', this)" class ="downvote">Downvote!</button>
+        {% endif %}
+
+
 
     </article>
 

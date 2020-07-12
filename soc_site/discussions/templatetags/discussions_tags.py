@@ -36,3 +36,15 @@ def past_time_parse(text):
 @register.filter(name='in_queue')
 def get_in_queue(notifications):
     return notifications.filter(noti_que=True)
+
+
+
+@register.filter(name='get_votes')
+def get_votes(object_, user):
+
+    votes = object_.votes.filter(user=user)
+
+    if votes:
+        return votes.first().family
+    else:
+        return None
