@@ -201,7 +201,7 @@ def upvote(request, question_slug):
         vote.save()
         result['code'] = 'ADDED_UPVOTE'
 
-        noti = Notification(title=f'{request.user} upvoted your question! "{question.title[:50]}"!', user=question.author.profile)
+        noti = Notification(title=f'{request.user} upvoted your question "{question.title[:50]}"!', user=question.author.profile)
         noti.save()
 
 
@@ -243,6 +243,9 @@ def downvote(request, question_slug):
     return HttpResponse(json.dumps(result), content_type="application/json")
 
 
+
+
+
 @login_required
 def response_upvote(request, question_slug, response_pk):
 
@@ -250,6 +253,32 @@ def response_upvote(request, question_slug, response_pk):
         'success':True,
         'code':''
     }
+
+
+    response = get_object_or_404(Response, pk=response_pk)
+
+    votes = response.votes.filter(user=request.user)
+
+    if votes:
+        vote = votes.first()
+
+        if vote.family == True:
+            vote.delete()
+            result['code'] = 'REMOVED_UPVOTE'
+
+        else:
+            vote.family = True
+            vote.save()
+            result['code'] = 'DOWNVOTE_TO_UPVOTE'
+
+    else:
+        vote = Vote(content_object=response, user=request.user, family=True)
+        vote.save()
+        result['code'] = 'ADDED_UPVOTE'
+
+        noti = Notification(title=f'{request.user} upvoted your response on  "{response.parent_question.title[:50]}" !', user=response.author.profile)
+        noti.save()
+
 
     return HttpResponse(json.dumps(result), content_type="application/json")
 
@@ -261,6 +290,28 @@ def response_downvote(request, question_slug, response_pk):
         'success':True,
         'code':''
     }
+
+    response = get_object_or_404(Response, pk=response_pk)
+
+    votes = response.votes.filter(user=request.user)
+
+    if votes:
+        vote = votes.first()
+
+        if vote.family == False:
+            vote.delete()
+            result['code'] = 'REMOVED_DOWNVOTE'
+
+        else:
+            vote.family = False
+            vote.save()
+            result['code'] = 'UPVOTE_TO_DOWNVOTE'
+            
+    else:
+        vote = Vote(content_object=response, user=request.user, family=False)
+        vote.save()
+        result['code'] = 'ADDED_DOWNVOTE'
+
 
     return HttpResponse(json.dumps(result), content_type="application/json")
 

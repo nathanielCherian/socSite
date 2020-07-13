@@ -117,7 +117,7 @@
       <div class="col-2">
         <div class="row">
           <div class="col-12">
-            <p>upvotes : {{ response | get_upvotes | length}}</p>
+            <p class="upvote-counter" >{{ response | get_upvotes | length}}</p>
           </div>
         </div>
         
@@ -128,7 +128,7 @@
         </div>
 
         <div class="row">
-          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: initial;">Downvote!</button>
+          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='downvote' style="background-color: initial;">Downvote!</button>
         </div>
 
         {% elif response|get_votes:user == False %}
@@ -138,7 +138,7 @@
         </div>
 
         <div class="row">
-          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: blue;">Downvote!</button>
+          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='downvote' style="background-color: blue;">Downvote!</button>
         </div>
 
         {% else %}
@@ -147,7 +147,7 @@
         </div>
 
         <div class="row">
-          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='upvote' style="background-color: initial;">Downvote!</button>
+          <button onclick="downvoteClick('{{ question.slug }}', '{{ response.pk }}', this)" class ='downvote' style="background-color: initial;">Downvote!</button>
         </div>
 
         {% endif %}
@@ -157,7 +157,7 @@
 
         <div class="row">
           <div class="col-12">
-            <p>downvotes: {{ response | get_downvotes | length }}</p>
+            <p class="downvote-counter">{{ response | get_downvotes | length }}</p>
           </div>
         </div>
 
@@ -227,11 +227,45 @@
 
     function upvoteClick(slug, pk, object){
 
+      var $upvote = $(object)
+      var $downvote = $upvote.parent().parent().find('.downvote')
+
+      var $upcounter = $upvote.parent().parent().find('.upvote-counter')
+      var $downcounter = $upvote.parent().parent().find('.downvote-counter')
+
       console.log(slug + " " + pk)
         $.ajax({
             url: 'http://localhost:8000/discussions/' + slug + '/' + pk + '/upvote/',
             success: function(data){
-              console.log("success")
+
+              if(data.success == true){
+                console.log(data.code)
+
+                if (data.code == 'ADDED_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'blue')
+
+                        $upcounter.text(parseInt($upcounter.text() + 1))
+
+                    }else if(data.code == 'DOWNVOTE_TO_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'blue') 
+
+                        $upcounter.text(parseInt($upcounter.text() + 1))
+                        $downcounter.text(parseInt($downcounter.text() - 1))
+
+
+                    }else if(data.code == 'REMOVED_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'initial') 
+
+                        $upcounter.text(parseInt($upcounter.text() - 1))
+                    }
+
+
+              }
+
+          
             },
             error: function(){
                 console.log("ajax failure")
@@ -241,11 +275,49 @@
       }
 
     function downvoteClick(slug, pk, object){
+
+      var $downvote = $(object)
+      var $upvote = $downvote.parent().parent().find('.upvote')
+
+      var $upcounter = $downvote.parent().parent().find('.upvote-counter')
+      var $downcounter = $downvote.parent().parent().find('.downvote-counter')
+
+
       console.log(slug + " " + pk)
         $.ajax({
             url: 'http://localhost:8000/discussions/' + slug + '/' + pk + '/downvote/',
             success: function(data){
-              console.log("success")
+
+              if(data.success == true){
+                console.log(data.code)
+
+
+                if (data.code == 'ADDED_DOWNVOTE'){
+                      $downvote.css("background-color", 'blue')
+                      $upvote.css("background-color", 'initial')
+
+                      $downcounter.text(parseInt($downcounter.text() + 1))
+
+                }else if(data.code == 'UPVOTE_TO_DOWNVOTE'){
+                      $downvote.css("background-color", 'blue')
+                      $upvote.css("background-color", 'initial')
+
+                      $downcounter.text(parseInt($downcounter.text() + 1))
+                      $upcounter.text(parseInt($upcounter.text() - 1))
+
+                }else if(data.code == 'REMOVED_DOWNVOTE'){
+                      $downvote.css("background-color", 'initial')
+                      $upvote.css("background-color", 'initial')
+
+                      $downcounter.text(parseInt($downcounter.text() - 1))
+
+                }
+
+
+
+              }
+
+
             },
             error: function(){
                 console.log("ajax failure")
