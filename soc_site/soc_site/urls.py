@@ -28,7 +28,7 @@ urlpatterns = [
     path('account/', include('users.urls')), #this will import all of the urls created in the feed app
     path('upload/', ckviews.upload, name='ckeditor_upload'),
     path('browse/', ckviews.browse, name='ckeditor_browse'),
-    path('posts/<slug:tag_slug>/', user_views.view_by_tag, name='view_by_tag'),
+    path('tags/<slug:tag_slug>/', user_views.view_by_tag, name='view_by_tag'),
     path('discussions/', include('discussions.urls'))
    
 

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'detail.css' %}">
+
+<!--<h1>I hope this works!</h1>-->
+
+<div>
+{% if questions|length > 0 %}
+<h1>Discussions for "{{ c_tag }}" ({{ questions|length }})</h1>
+<div class="row" style="margin-bottom: 3vh;">
+    <div class="col-10">
+        <a href="{% url 'view_by_tag' c_tag %}"><button>Articles</button></a>
+        <a href="{% url 'view_by_tag' c_tag %}?filter=questions"><button style="border-bottom: 2px solid red;">Discussions</button></a>
+    </div>
+</div>
+{% else %}
+<h1>Sorry there are no discussions with that tag</h1>
+
+<div class="row" style="margin-bottom: 3vh;">
+    <div class="col-10">
+        <a href="{% url 'view_by_tag' c_tag %}"><button>Articles</button></a>
+        <a href="{% url 'view_by_tag' c_tag %}?filter=questions"><button style="border-bottom: 2px solid red;">Discussions</button></a>
+    </div>
+</div>
+
+<h2 style="margin-top: 3vh;">Why not <a href="{% url 'create_post' %}">Make one</a>...</h2>
+{% endif %}
+
+{% for questionn in questions%}
+
+    {% include 'snippets/question_display.html' with question=questionn%}
+
+{% endfor %}
+
+</div>
+
+{% endblock content %}

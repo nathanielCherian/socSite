@@ -125,6 +125,14 @@ def my_notifications(request):
 
 
 def view_by_tag(request, tag_slug):
+
+    medium = request.GET.get('filter')
+
+    if medium == 'questions':
+        tag = Tag.objects.filter(slug=tag_slug).first()
+        object_list = Question.actives.filter(tags__in=[tag])
+        return render(request, 'feed/questions_by_tag.html', {'questions':object_list, 'c_tag':tag})
+
     posts = Post.published.all()
     tag = Tag.objects.filter(slug=tag_slug).first()
     #tag = get_object_or_404(Tag, slug=tag_slug)

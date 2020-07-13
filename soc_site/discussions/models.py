@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.fields import GenericRelation
+from taggit.managers import TaggableManager
 from users.models import Vote
 
 class ActiveManager(models.Manager):
@@ -23,6 +24,8 @@ class Question(models.Model):
     active = models.BooleanField(default=True)
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     votes = GenericRelation(Vote)
+    tags = TaggableManager()
+
 
     def __str__(self):
         return self.title

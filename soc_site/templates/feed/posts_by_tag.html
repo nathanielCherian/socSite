@@ -11,8 +11,22 @@
 <div>
 {% if posts|length > 0 %}
 <h1>Posts for "{{ c_tag }}" ({{ posts|length }})</h1>
+<div class="row" style="margin-bottom: 3vh;">
+    <div class="col-10">
+        <a href="{% url 'view_by_tag' c_tag %}"><button style="border-bottom: 2px solid red;">Articles</button></a>
+        <a href="{% url 'view_by_tag' c_tag%}?filter=questions"><button>Discussions</button></a>
+    </div>
+</div>
 {% else %}
 <h1>Sorry there are no posts with that tag</h1>
+
+<div class="row" style="margin-bottom: 3vh;">
+    <div class="col-10">
+        <a href="{% url 'view_by_tag' c_tag %}"><button style="border-bottom: 2px solid red;">Articles</button></a>
+        <a href="{% url 'view_by_tag' c_tag%}?filter=questions"><button>Discussions</button></a>
+    </div>
+</div>
+
 <h2 style="margin-top: 3vh;">Why not <a href="{% url 'create_post' %}">Make one</a>...</h2>
 {% endif %}
 

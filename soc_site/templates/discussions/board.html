@@ -31,97 +31,12 @@
 
 
 
-{% for question in questions %}
-
-<article class="media content-section" style="min-height: 20vh;">
-
-      <div class="media-body">
-
-        <div class="row">
-
-            <div class="col-2">
-                
-                <div class="row" style="text-align: center;">
-                    <div class="col-12">
-                        <h3 style="text-align: center;">{{ question.responses.all | length }}</h3>
-                    </div>
-                </div>
-
-                <div class="row" style="text-align: center;">
-                    <div class="col-12" style="text-align: center;">
-                        <h4>Answer{{ question.responses.all | length |pluralize}}</h4>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12" style="text-align: center;">
-                        <h3 class="vote-counter">{{ question | get_upvotes | length }}</h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12" style="text-align: center;">
-                        <h4>Upvote{{ question.votes.all | length |pluralize}}</h4>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col-10">
+{% for questionn in questions %}
 
 
-                <div class="row">
-                    <div class="col-10">
-                        <h2><a class="article-title" href="{% url 'view_question' question.slug %}">{{ question.title }}</a></h2>
-                    </div>
-                    <div class="col-2" style="text-align: right;">
-                        <small class="text-muted" style="text-align: right;">{{ question.date_posted | past_time }}</small>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <p class="article-content">{{ question.content }}</p>
-                    </div>
-                </div>
-        
-
-                <div class="row justify-content-end">
-                    <div class="col-3" style="text-align: end;">
-                        {% if question|get_votes:user == True %}
-                        <!--<script>console.log('{{ question | get_votes:user }}')</script>-->
-                        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote' style="background-color: blue;">Upvote!</button>
-                        {% elif question|get_votes:user == False %}
-                        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
-                        {% else %}
-                        <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="row justify-content-end" style="margin-top: 3%;">
-                    <div class="col-3" style="text-align: right;">
-                        <a href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a>
-                    </div>
-                </div>
-                
-            </div>
-
-        </div>
+    {% include 'snippets/question_display.html' with question=questionn %}
 
 
-        <!--
-        <div class="article-metadata">
-            <div class="row">
-                <a class="col-6" href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a>
-                <small class="text-muted col-6" style="text-align: right;">{{ question.date_posted }}</small>
-            </div>
-        </div>-->
-
-
-        </div>
-
-    </article>
 
 {%  endfor %}
 

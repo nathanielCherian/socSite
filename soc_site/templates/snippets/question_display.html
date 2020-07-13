@@ -1,0 +1,193 @@
+{% load discussions_tags%}
+
+<article class="media content-section" style="min-height: 21vh;">
+
+    <div class="media-body">
+
+      <div class="row">
+
+          <div class="col-2">
+              
+              <div class="row" style="text-align: center;">
+                  <div class="col-12">
+                      <h3 style="text-align: center;">{{ question.responses.all | length }}</h3>
+                  </div>
+              </div>
+
+              <div class="row" style="text-align: center;">
+                  <div class="col-12" style="text-align: center;">
+                      <h4>Answer{{ question.responses.all | length |pluralize}}</h4>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-12" style="text-align: center;">
+                      <h3 class="vote-counter">{{ question | get_upvotes | length }}</h3>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-12" style="text-align: center;">
+                      <h4>Upvote{{ question.votes.all | length |pluralize}}</h4>
+                  </div>
+              </div>
+
+          </div>
+
+          <div class="col-10">
+
+
+              <div class="row">
+                  <div class="col-10">
+                      <h2><a class="article-title" href="{% url 'view_question' question.slug %}">{{ question.title }}</a></h2>
+                  </div>
+                  <div class="col-2" style="text-align: right;">
+                      <small class="text-muted" style="text-align: right;">{{ question.date_posted | past_time }}</small>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-12">
+                      <p class="article-content">{{ question.content }}</p>
+                  </div>
+              </div>
+      
+
+              <div class="row justify-content-end">
+                  <div class="col-3" style="text-align: end;">
+                      {% if question|get_votes:user == True %}
+                      <!--<script>console.log('{{ question | get_votes:user }}')</script>-->
+                      <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote' style="background-color: blue;">Upvote!</button>
+                      {% elif question|get_votes:user == False %}
+                      <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
+                      {% else %}
+                      <button onclick="upvoteClick('{{ question.slug }}', this)" class ='upvote'>Upvote!</button>
+                      {% endif %}
+                  </div>
+              </div>
+
+
+
+              <div class="row justify-content-end" style="margin-top: 3%;">
+
+                  <div class="col-9">
+
+                      {% for tag in question.tags.all %}
+
+                      <div class="float-left">
+                          <a href="{% url 'view_by_tag' tag.slug %}?filter=questions">
+                              <button class="tag-elmt" style="background-color: rgba(0, 255, 255, 0.5);">{{ tag }}</button>
+                          </a>
+                      </div>
+      
+                      {% endfor %}
+
+                  </div>
+
+                  <div class="col-3" style="text-align: right;">
+                      <a href="{% url 'view_profile' question.author.profile.slug %}">{{ question.author }}</a>
+                  </div>
+                  
+              </div>
+              
+          </div>
+
+      </div>
+
+      </div>
+
+  </article>
+
+
+  <script>
+
+    function upvoteClick(slug, object){
+
+        var $upvote = $(object)
+        var $downvote = $upvote.parent().find('.downvote')
+
+        var $counter = $upvote.parent().parent().parent().parent().find('.vote-counter')
+
+        console.log(slug)
+        $.ajax({
+            url: 'http://localhost:8000/discussions/' + slug + '/upvote/',
+            success: function(data){
+                if (data.success){
+                    console.log(data.code)
+                    console.log(data)
+
+
+                    if (data.code == 'ADDED_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'blue')
+
+                        $counter.text(parseInt($counter.text() + 1))
+
+                    }else if(data.code == 'DOWNVOTE_TO_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'blue') 
+
+                        $counter.text(parseInt($counter.text() + 1))
+
+
+                    }else if(data.code == 'REMOVED_UPVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'initial') 
+
+                        $counter.text(parseInt($counter.text() - 1))
+
+                    }
+
+
+                    console.log($upvote)
+                    console.log($downvote)
+
+                }else{
+                    console.log("Failed!")
+                }
+            },
+            error: function(){
+                console.log("ajax failure")
+            }
+        });
+    }
+
+
+    function downvoteClick(slug, object){
+
+        var $downvote = $(object)
+        var $upvote = $downvote.parent().find('.upvote')
+
+        $.ajax({
+            url: 'http://localhost:8000/discussions/' + slug + '/downvote/',
+            success: function(data){
+
+                if (data.success){
+                    console.log(data.code)
+
+                    if (data.code == 'ADDED_DOWNVOTE'){
+                        $downvote.css("background-color", 'blue')
+                        $upvote.css("background-color", 'initial')
+
+                    }else if(data.code == 'UPVOTE_TO_DOWNVOTE'){
+                        $downvote.css("background-color", 'blue')
+                        $upvote.css("background-color", 'initial') 
+
+                    }else if(data.code == 'REMOVED_DOWNVOTE'){
+                        $downvote.css("background-color", 'initial')
+                        $upvote.css("background-color", 'initial') 
+                    }
+
+
+
+                }else{
+                    console.log("Failed!")
+                }
+            },
+            error: function(){
+                console.log("ajax failure")
+            }
+        });
+    }
+
+</script>

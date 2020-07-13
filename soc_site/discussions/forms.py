@@ -5,7 +5,7 @@ class QuestionCreateForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields=('title', 'content')
+        fields=('title', 'content', 'tags')
 
     def clean(self):
         title = self.cleaned_data.get('title')
@@ -29,7 +29,7 @@ class QuestionEditForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields=('title', 'content')
+        fields=('title', 'content', 'tags')
 
     def clean(self):
         title = self.cleaned_data.get('title')
