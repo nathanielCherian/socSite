@@ -51,7 +51,7 @@ class Post(models.Model):
 
         self.slug =  slugged_title
 
-        self.content = purge_html(self.content) #cleans HTML to prevent injection attack
+        #self.content = purge_html(self.content) #cleans HTML to prevent injection attack
 
 
         super(Post, self).save(*args, *kwargs)

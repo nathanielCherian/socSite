@@ -147,6 +147,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 ################ Markdownx ############################
 
+MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'
+
 MARKDOWNX_MEDIA_PATH  = datetime.now().strftime('uploads/%Y/%m/%d')
 
 MARKDOWNX_UPLOAD_MAX_SIZE = 50 * 1024 * 1024

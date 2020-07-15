@@ -20,19 +20,11 @@
 
             <p><input type="submit" onclick= 'allowReload()' value="Save!"></p>
         </form>
-        
+
         {{ form.media }}
 
 
         <script>
-                        ClassicEditor
-                                .create( document.querySelector( 'content' ) )
-                                .then( editor => {
-                                        console.log( editor );
-                                } )
-                                .catch( error => {
-                                        console.error( error );
-                                } );
 
 
                         window.onbeforeunload = function() {
