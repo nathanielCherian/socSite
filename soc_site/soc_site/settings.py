@@ -154,11 +154,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 #----- Extensions -----#
 
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
-    'markdown.extensions.extra'
+    'markdown.extensions.extra',
+    'codehilite',
 ]
 
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {
-    'fenced_code': {}
+    'codehilite': {'linenums':True}
 }
 
 #-----------------------#
