@@ -14,13 +14,15 @@
 
 
         <form method="POST" enctype="multipart/form-data">
-            {{ form.media }}
             {{ form | crispy}}
             {% csrf_token %}
 
 
             <p><input type="submit" onclick= 'allowReload()' value="Save!"></p>
         </form>
+        
+        {{ form.media }}
+
 
         <script>
                         ClassicEditor

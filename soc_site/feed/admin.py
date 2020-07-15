@@ -1,4 +1,5 @@
 from django.contrib import admin
+from markdownx.admin import MarkdownxModelAdmin
 from .models import Post
 
 @admin.register(Post)
@@ -10,3 +11,4 @@ class PostAdmin(admin.ModelAdmin):
     raw_id_fields = ('author',)
     date_hierarchy = 'date_posted'
     ordering = ('status', 'date_posted')
+
