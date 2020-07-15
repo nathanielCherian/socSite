@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'detail.css' %}">
+
+<div>
+{% if questions|length > 0 %}
+<h1>Discussions for "{{ search_term }}" ({{ questions|length }})</h1>
+{% else %}
+<h1>Sorry there are no Discussions that contain "{{ search_term }}"</h1>
+<h2 style="margin-top: 3vh;">Why not <a href="{% url 'create_question' %}">Ask</a> the Community</h2>
+{% endif %}
+
+
+
+{% include 'query/search_options.html' %}
+
+
+
+{% for questionn in questions %}
+
+{% include 'snippets/question_display.html' with question=questionn %}
+
+
+{%  endfor %}
+
+
+</div>
+
+{% endblock content %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
-from django.db.models import Q
+from django.db.models import Q, Count
 from .models import Post
 from discussions.models import Question
 from users.models import Profile
@@ -28,20 +28,44 @@ def post_detail_view(request, author, post):
 
 def get_post_queryset(request, query=None):
 
-    questions = Question.actives.all()
+
+
+    filter_query = ''
+    if 'filter' in request.GET:
+        filter_query = request.GET['filter']
+        
+
 
     if 'search' in request.GET:
 
         search_term = request.GET['search']
 
-        if request.GET.get('filter') == 'Questions':
+        if request.GET.get('medium') == 'Questions':
+            questions = Question.actives.all()
             questions = questions.filter(Q(title__icontains=search_term) | Q(content__icontains=search_term))
-            print(questions)
-            return render(request, 'feed/query_questions.html', {'questions':questions, 'search_term':search_term})
+
+            if filter_query == 'top':
+                questions = questions.annotate(num_replies=Count('responses')).order_by('-num_replies')
+            
+            elif filter_query == 'old':
+                questions = questions.order_by('-date_posted')
+
+            else:
+                questions = questions.order_by('date_posted')
+        
+            return render(request, 'query/query_questions.html', {'questions':questions, 'search_term':search_term, 'medium':'Questions', 'filter':filter_query})
+
+
 
         #if request.GET.get('filter') == 'Posts': this will be the default
-
+    
         posts = Post.published.filter(Q(title__icontains=search_term) | Q(summary__icontains=search_term))
-        return render(request, 'feed/query_posts.html', {'posts':posts, 'search_term':search_term})
+    
+        if filter_query == 'old':
+            posts = posts.order_by('-date_posted')
 
-        return render(request, 'feed/query_posts.html', {'posts':posts, 'questions':questions, 'search_term':search_term})
+        else:
+            posts = posts.order_by('date_posted')
+
+        return render(request, 'query/query_posts.html', {'posts':posts, 'search_term':search_term, 'medium':'Posts', 'filter':filter_query})
+

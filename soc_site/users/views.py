@@ -119,7 +119,7 @@ def my_notifications(request):
 
     x = render(request, 'account/my_notifications.html', {'notifications':notifications})
 
-    notifications.update(noti_que=False)
+    notifications.delete()
 
     return x
 

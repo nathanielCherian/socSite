@@ -87,7 +87,8 @@
                     console.log($downvote)
 
                 }else{
-                    console.log("Failed!")
+                    console.log("Authentication Required!")
+                    window.location.href = "{% url 'login' %}?next={% url 'discussion_board' %}"
                 }
             },
             error: function(){
@@ -125,7 +126,8 @@
 
 
                 }else{
-                    console.log("Failed!")
+                    console.log("Authentication Required!")
+                    window.location.href = "{% url 'login' %}?next={% url 'discussion_board' %}"
                 }
             },
             error: function(){

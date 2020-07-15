@@ -1,0 +1,41 @@
+<div class="row" style="margin-bottom: 3vh;">
+    <div class="col-6">
+        <a href="/search/?search={{search_term}}&medium=Posts"><button id="Posts">Articles</button></a>
+        <a href="/search/?search={{search_term}}&medium=Questions"><button id='Questions' >Discussions</button></a>
+        
+        <!--
+        <a href="/tags/{{search_term | lower }}/"><button>Tags</button></a>
+        -->
+    </div>
+    
+    <div class="col-6" style="text-align: end;">
+        <a href="/search/?search={{search_term}}&medium={{ medium }}&filter=new"><button id='new'>Newest</button></a>
+        <a href="/search/?search={{search_term}}&medium={{ medium }}&filter=old"><button id='old'>Oldest</button></a>
+        <a href="/search/?search={{search_term}}&medium={{ medium }}&filter=top"><button id='top'>Top</button></a>
+    </div>
+
+</div>
+
+
+<script>
+
+    try{
+        $('#{{ filter }}').addClass('selected');
+    }
+
+    catch{
+
+    }
+    
+    $('#{{ medium }}').addClass('selected');
+
+
+</script>
+
+<style>
+
+    .selected{
+        border-bottom: 2px red solid;
+    }
+
+</style>

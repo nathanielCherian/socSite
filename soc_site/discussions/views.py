@@ -276,8 +276,10 @@ def response_upvote(request, question_slug, response_pk):
         vote.save()
         result['code'] = 'ADDED_UPVOTE'
 
-        noti = Notification(title=f'{request.user} upvoted your response on  "{response.parent_question.title[:50]}" !', user=response.author.profile)
-        noti.save()
+
+        if request.user != response.author:
+            noti = Notification(title=f'{request.user} upvoted your response on  "{response.parent_question.title[:50]}" !', user=response.author.profile)
+            noti.save()
 
 
     return HttpResponse(json.dumps(result), content_type="application/json")
