@@ -174,7 +174,7 @@ MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml']
 
 MARKDOWNX_IMAGE_MAX_SIZE = {
     'size': (500, 500),
-    'quality': 90
+    'quality': 100
 }
 
 MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True
