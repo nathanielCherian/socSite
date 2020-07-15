@@ -150,6 +150,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 ################ Markdownx ############################
 
+
+#----- Extensions -----#
+
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra'
+]
+
+MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {
+    'fenced_code': {}
+}
+
+#-----------------------#
+
 MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'
 
 MARKDOWNX_MEDIA_PATH  = datetime.now().strftime('uploads/%Y/%m/%d')
