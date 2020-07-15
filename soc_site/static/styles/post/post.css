@@ -1,0 +1,16 @@
+.post_content  img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;    
+}
+
+.post_content code{
+    color: black;
+    background-color: rgb(209, 209, 209);
+    border-radius: 5px;
+    
+    border: 1px solid #999;
+    display: block;
+    padding: 1%; 
+}
