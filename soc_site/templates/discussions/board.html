@@ -54,7 +54,7 @@
 
         console.log(slug)
         $.ajax({
-            url: 'http://localhost:8000/discussions/' + slug + '/upvote/',
+            url: window.location.origin + '/discussions/' + slug + '/upvote/',
             success: function(data){
                 if (data.success){
                     console.log(data.code)
@@ -104,11 +104,12 @@
         var $upvote = $downvote.parent().find('.upvote')
 
         $.ajax({
-            url: 'http://localhost:8000/discussions/' + slug + '/downvote/',
+            url: window.location.origin + '/discussions/' + slug + '/downvote/',
             success: function(data){
 
                 if (data.success){
                     console.log(data.code)
+                    console.log(window.location.origin)
 
                     if (data.code == 'ADDED_DOWNVOTE'){
                         $downvote.css("background-color", 'blue')

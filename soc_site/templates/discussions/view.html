@@ -235,7 +235,7 @@
 
       console.log(slug + " " + pk)
         $.ajax({
-            url: 'http://localhost:8000/discussions/' + slug + '/' + pk + '/upvote/',
+          url: window.location.origin + '/discussions/' + slug + '/' + pk + '/upvote/',
             success: function(data){
 
               if(data.success == true){
@@ -285,7 +285,7 @@
 
       console.log(slug + " " + pk)
         $.ajax({
-            url: 'http://localhost:8000/discussions/' + slug + '/' + pk + '/downvote/',
+          url: window.location.origin + '/discussions/' + slug + '/' + pk + '/downvote/',
             success: function(data){
 
               if(data.success == true){
