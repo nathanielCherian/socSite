@@ -110,7 +110,7 @@ def edit_post(request, post_slug):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = '/discussions'
+    success_url = '/'
 
     def get_object(self):
         return self.model.objects.get(slug=self.kwargs['post_slug'])
