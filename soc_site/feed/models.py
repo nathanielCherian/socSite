@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from taggit.managers import TaggableManager
-from ckeditor_uploader.fields import RichTextUploadingField
+from markdownx.models import MarkdownxField
 from bs4 import BeautifulSoup
 
 
@@ -27,7 +27,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100, unique=False)
     slug = models.SlugField(max_length=100)
     summary = models.CharField(max_length=300)
-    content = RichTextUploadingField()
+    content = MarkdownxField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     date_posted = models.DateTimeField(default=timezone.now)
@@ -51,7 +51,7 @@ class Post(models.Model):
 
         self.slug =  slugged_title
 
-        self.content = purge_html(self.content) #cleans HTML to prevent injection attack
+        #self.content = purge_html(self.content) #cleans HTML to prevent injection attack
 
 
         super(Post, self).save(*args, *kwargs)

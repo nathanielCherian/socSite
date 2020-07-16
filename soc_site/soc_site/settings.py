@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from datetime import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,11 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
     'crispy_forms',
     'taggit',
-    'ckeditor',
-    'ckeditor_uploader'
+    'markdownx',
 ]
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,6 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 LOGIN_REDIRECT_URL = 'home_feed'
@@ -144,7 +148,35 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 
-################ CKEditor ############################
+################ Markdownx ############################
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
 
+#----- Extensions -----#
+
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra',
+    'codehilite',
+]
+
+MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {
+    'codehilite': {'linenums':True}
+}
+
+#-----------------------#
+
+MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'
+
+MARKDOWNX_MEDIA_PATH  = datetime.now().strftime('uploads/%Y/%m/%d')
+
+MARKDOWNX_UPLOAD_MAX_SIZE = 50 * 1024 * 1024
+
+MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml']
+
+MARKDOWNX_IMAGE_MAX_SIZE = {
+    'size': (500, 500),
+    'quality': 100
+}
+
+MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True
+
+MARKDOWNX_SERVER_CALL_LATENCY = 500 #default; change later?

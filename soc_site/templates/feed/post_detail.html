@@ -1,10 +1,14 @@
 {% extends "base.html" %}
+{% load discussions_tags%}
 {% load static %}
 
 
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'post_detail.css' %}">
+<link rel="stylesheet" href="{% static 'styles/post/post.css' %}">
+<link rel="stylesheet" href="{% static 'styles/post/hilite.css' %}">
+
 
 <!--<h1>I hope this works!</h1>-->
 
@@ -49,10 +53,11 @@
 
                 <style>
 
+                /*
                 img {
                 max-width: 100%;
                 height: auto;
-                }
+                } */
 
 
                 </style>
@@ -61,7 +66,7 @@
                 <div class="col-8">
 
                     <div class="post_content">
-                        <p class="article-content">{{ post.content | safe}}</p>
+                        <p class="article-content">{{ post.content | to_HTML | safe }}</p>
                     </div>
 
                 </div>
@@ -89,6 +94,28 @@
       </div>
 
     </article>
+
+
+    <script>
+
+/*
+        var codeElement = document.getElementsByClassName('python');
+        var code = codeElement[0].innerText;
+
+        console.log(code)
+          
+        codeElement[0].innerHTML = "";
+
+        CodeMirror(codeElement[0], {
+                value: code,
+                mode: "python",
+                theme: "default",
+                lineNumbers: true,
+                readOnly: true,
+        }); */
+
+    </script>
+
 
 
 {% endblock content %}

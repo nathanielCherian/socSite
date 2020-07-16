@@ -3,6 +3,13 @@ from django.utils.safestring import mark_safe
 import datetime
 from dateutil.parser import parse
 from django.utils import timezone
+from markdown import markdown
+
+
+from soc_site.settings import (
+    MARKDOWNX_MARKDOWN_EXTENSIONS,
+    MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
+)
 
 register = template.Library()
 
@@ -59,3 +66,14 @@ def get_upvotes(object_):
 def get_downvotes(object_):
     votes = object_.votes.filter(family=False)
     return votes
+
+
+@register.filter(name='to_HTML')
+def markdown_to_HTML(content):
+
+    md = markdown(
+        text=content,
+        extensions=MARKDOWNX_MARKDOWN_EXTENSIONS,
+        extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS)
+
+    return md
