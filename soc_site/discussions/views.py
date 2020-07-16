@@ -180,7 +180,9 @@ def upvote(request, question_slug):
     result = {
         'success':True,
         'code':'',
-        'upvotes':0
+        'upvotes':0,
+        'downvotes':0
+
     }
 
     question = get_object_or_404(Question, slug=question_slug, active=True)
@@ -209,6 +211,7 @@ def upvote(request, question_slug):
 
 
     result['upvotes'] = question.votes.filter(family=True).count()
+    result['downvotes'] = question.votes.filter(family=False).count()
 
     return HttpResponse(json.dumps(result), content_type="application/json")
 
@@ -218,8 +221,12 @@ def downvote(request, question_slug):
 
     result = {
         'success':True,
-        'code':''
+        'code':'',
+        'upvotes':0,
+        'downvotes':0
+
     }
+
 
     question = get_object_or_404(Question, slug=question_slug, active=True)
 
@@ -242,6 +249,8 @@ def downvote(request, question_slug):
         vote.save()
         result['code'] = 'ADDED_DOWNVOTE'
 
+    result['upvotes'] = question.votes.filter(family=True).count()
+    result['downvotes'] = question.votes.filter(family=False).count()
 
     return HttpResponse(json.dumps(result), content_type="application/json")
 
@@ -254,7 +263,10 @@ def response_upvote(request, question_slug, response_pk):
 
     result = {
         'success':True,
-        'code':''
+        'code':'',
+        'upvotes':0,
+        'downvotes':0
+
     }
 
 
@@ -284,6 +296,8 @@ def response_upvote(request, question_slug, response_pk):
             noti = Notification(title=f'{request.user} upvoted your response on  "{response.parent_question.title[:50]}" !', user=response.author.profile)
             noti.save()
 
+    result['upvotes'] = response.votes.filter(family=True).count()
+    result['downvotes'] = response.votes.filter(family=False).count()
 
     return HttpResponse(json.dumps(result), content_type="application/json")
 
@@ -293,7 +307,10 @@ def response_downvote(request, question_slug, response_pk):
 
     result = {
         'success':True,
-        'code':''
+        'code':'',
+        'upvotes':0,
+        'downvotes':0
+
     }
 
     response = get_object_or_404(Response, pk=response_pk)
@@ -316,7 +333,9 @@ def response_downvote(request, question_slug, response_pk):
         vote = Vote(content_object=response, user=request.user, family=False)
         vote.save()
         result['code'] = 'ADDED_DOWNVOTE'
-
+        
+    result['upvotes'] = response.votes.filter(family=True).count()
+    result['downvotes'] = response.votes.filter(family=False).count()
 
     return HttpResponse(json.dumps(result), content_type="application/json")
 

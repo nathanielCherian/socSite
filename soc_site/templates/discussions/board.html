@@ -65,20 +65,23 @@
                         $downvote.css("background-color", 'initial')
                         $upvote.css("background-color", 'blue')
 
-                        $counter.text(parseInt($counter.text() + 1))
+                        //$counter.text(parseInt($counter.text() + 1))
+                        $counter.text(data.upvotes)
 
                     }else if(data.code == 'DOWNVOTE_TO_UPVOTE'){
                         $downvote.css("background-color", 'initial')
                         $upvote.css("background-color", 'blue') 
 
-                        $counter.text(parseInt($counter.text() + 1))
+                        //$counter.text(parseInt($counter.text() + 1))
+                        $counter.text(data.upvotes)
 
 
                     }else if(data.code == 'REMOVED_UPVOTE'){
                         $downvote.css("background-color", 'initial')
                         $upvote.css("background-color", 'initial') 
 
-                        $counter.text(parseInt($counter.text() - 1))
+                        //$counter.text(parseInt($counter.text() - 1))
+                        $counter.text(data.upvotes)
 
                     }
 
