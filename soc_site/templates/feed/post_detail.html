@@ -31,7 +31,8 @@
                 <div class="col-2" style="text-align: right;">
                     {% if user == post.author %}
 
-                    <a href="{% url 'edit_post' post.slug %}"><button>Edit</button></a>
+                    <a href="{% url 'delete_post' post.slug %}"><button class="btn btn-danger">Delete</button></a>
+                    <a href="{% url 'edit_post' post.slug %}"><button class="btn">Edit</button></a>
 
                     {% endif %}
 

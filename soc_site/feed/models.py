@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 class PublishedManager(models.Manager): #Custom queryset manager
     def get_queryset(self):
-        return super(PublishedManager, self).get_queryset().filter(status='published')
+        return super(PublishedManager, self).get_queryset().filter(status='published', active=True)
 
 
 #creating the Post object; will have one to many relationship to User
@@ -34,7 +34,7 @@ class Post(models.Model):
     tags = TaggableManager()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
-
+    active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('-date_posted',)

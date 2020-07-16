@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.db.models import Count, Q
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, DeleteView
@@ -111,7 +112,9 @@ def edit_question(request, question_slug):
 
 class QuestionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Question
-    success_url = '/discussions'
+    success_url = reverse_lazy('home_feed')
+    success_message = "Post was deleted successfully."
+
 
     def get_object(self):
         return self.model.objects.get(slug=self.kwargs['question_slug'])

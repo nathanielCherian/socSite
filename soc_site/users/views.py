@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.contrib.auth.models import User
-from django.views.generic import DetailView
+from django.views.generic import DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
@@ -57,7 +57,11 @@ def create_post(request):
 
             user = request.user
             new_post = post_form.save(commit=False)
+            print(post_form.cleaned_data.get('tags'))
             new_post.author = user
+            new_post.save()
+            for tag in post_form.cleaned_data.get('tags'):
+                new_post.tags.add(tag)
             new_post.save()
 
             if post_form.cleaned_data.get('status')== 'draft':
@@ -102,6 +106,21 @@ def edit_post(request, post_slug):
         post_form = PostCreateForm(instance=post)
         return render(request, 'account/edit_post.html', {'form':post_form})
 
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url = '/discussions'
+
+    def get_object(self):
+        return self.model.objects.get(slug=self.kwargs['post_slug'])
+
+    def test_func(self):
+        print(self.kwargs['post_slug'])
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
 
 
 
