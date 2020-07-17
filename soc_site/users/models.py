@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 
 
 class Profile(models.Model):

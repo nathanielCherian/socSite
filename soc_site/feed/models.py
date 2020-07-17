@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from taggit.managers import TaggableManager
 from markdownx.models import MarkdownxField
 from bs4 import BeautifulSoup
@@ -45,7 +45,10 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs): #system of producing unique slugs :)
 
-        slugged_title = slugify(self.title)
+        slugged_title = slugify(self.title, allow_unicode=True)
+
+        if not slugged_title:
+            slugged_title = 'dont-use-emojis'
 
         post_family = Post.objects.filter(author=self.author)
 

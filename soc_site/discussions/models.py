@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericRelation
 from taggit.managers import TaggableManager
 from users.models import Vote
@@ -32,8 +32,11 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         
-        base_slug = slugify(self.title)
+        base_slug = slugify(self.title, allow_unicode=True)
         
+        if not base_slug:
+            base_slug = 'dont-use-emojis'
+
         i = ''
         while Question.objects.filter(slug=base_slug + str(i)):
             if i:

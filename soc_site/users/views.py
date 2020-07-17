@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.views.generic import DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from feed.models import Post
 from taggit.models import Tag
 from .forms import UserRegistrationForm, PostCreateForm
