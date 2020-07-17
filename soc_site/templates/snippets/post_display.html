@@ -2,13 +2,16 @@
 
     <img class="rounded-circle article-img" src="{{ post.author.profile.photo.url }}">
 
-      <div class="media-body">
+
+
+      <div class="media-body" style="cursor: pointer;">
         <div class="article-metadata">
             <div class="row">
                 <a class="col-6" href="{% url 'view_profile' post.author.profile.slug %}">{{ this_post.author }}</a>
                 <small class="text-muted col-6" style="text-align: right;">{{ this_post.date_posted }}</small>
             </div>
         </div>
+
 
         <h2><a class="article-title" href="{% url 'post_detail' post.author post.slug %}">{{ this_post.title }}</a></h2>
         <p class="article-content">{{ this_post.summary }}</p>
@@ -28,5 +31,10 @@
 
             </div>
 
-      </div>
-    </article>
+    </div>
+
+
+
+
+
+</article>    

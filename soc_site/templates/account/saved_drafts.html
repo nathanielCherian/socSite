@@ -20,5 +20,15 @@
 
 
 
+    <script>
 
+        let $content = $(".media-body")
+    
+        $content.click(function() {
+            //console.log($(this).find('.article-title').attr('href'))
+            window.location.href = $(this).find('.article-title').attr('href')
+        })
+    
+    </script>
+    
 {% endblock content %}
