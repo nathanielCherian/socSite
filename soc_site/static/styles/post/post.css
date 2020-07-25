@@ -23,3 +23,17 @@
     margin-bottom: 10%;
 }
 
+.roman ol{
+    list-style-type: upper-roman;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+
+.top-10 { margin-top: 10%; }
+.top-20 { margin-top: 20%; }
+.top-30 { margin-top: 30%; }
+.top-40 { margin-top: 40%; }
+.top-50 { margin-top: 50%; }

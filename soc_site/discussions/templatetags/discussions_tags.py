@@ -5,13 +5,13 @@ from dateutil.parser import parse
 from django.utils import timezone
 from markdown import markdown
 
-
 from soc_site.settings import (
     MARKDOWNX_MARKDOWN_EXTENSIONS,
     MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
 )
 
 register = template.Library()
+
 
 
 @register.filter(name='past_time', expects_localtime=True)
