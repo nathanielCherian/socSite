@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
 from django.db.models import Q, Count
+from django.core.serializers.json import DjangoJSONEncoder
 from .models import Post
 from discussions.models import Question
 from users.models import Profile
+import json
 
 
 class PostListView(ListView):
@@ -24,7 +26,21 @@ def post_detail_view(request, author, post):
     else:
         post = get_object_or_404(Post, slug=post, author__username=author, status='published')
         return render(request, 'feed/post_detail.html', {'post':post})
-    
+
+
+def post_detail_serialized(request, author, post):
+    post = get_object_or_404(Post, slug=post, author__username=author, status='published')
+
+    d = post.__dict__
+    d['author_username'] = post.author.username
+    d['author_firstname'] = post.author.first_name
+    d['author_lastname'] = post.author.last_name
+
+    del d['_state']
+
+    return HttpResponse(json.dumps(d, cls=DjangoJSONEncoder), content_type="application/json")    
+
+
 
 def get_post_queryset(request, query=None):
 
