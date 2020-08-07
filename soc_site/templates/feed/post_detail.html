@@ -22,18 +22,18 @@
         <div class="container">
             <div class="row">
             
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-1"></div>
+                <div class="col-10">
             <h2 class="article-title">{{ post.title }}</h2>
                     <hr>
                 </div>
 
 
-                <div class="col-2" style="text-align: right;">
+                <div class="col-1" style="text-align: right;">
                     {% if user == post.author %}
 
                     <a href="{% url 'delete_post' post.slug %}"><button class="btn btn-danger">Delete</button></a>
-                    <a href="{% url 'edit_post' post.slug %}"><button class="btn">Edit</button></a>
+                    <a href="{% url 'edit_post' post.slug %}"><button class="btn" style="margin-top: 20%;">Edit</button></a>
 
                     {% endif %}
 
@@ -41,8 +41,8 @@
 
 
 
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-1"></div>
+                <div class="col-10">
                     <div class="author-section">
                         <img class="rounded-circle article-img" src="{{ post.author.profile.photo.url }}">
                         By <a href="{% url 'view_profile' post.author.profile.slug %}" style="color: black;">{{ post.author }} </a>
@@ -50,7 +50,7 @@
                     <hr style="margin-top: 3vh;">
 
                 </div>
-                <div class="col-2"></div>
+                <div class="col-1"></div>
                 
 
                 <style>
@@ -64,20 +64,20 @@
 
                 </style>
 
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-1"></div>
+                <div class="col-10">
 
                     <div class="post_content">
                         <p class="article-content">{{ post.content | to_HTML | safe }}</p>
                     </div>
 
                 </div>
-                <div class="col-2"></div>
+                <div class="col-1"></div>
 
                 
 
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-1"></div>
+                <div class="col-10">
 
                     <!-- End of text here, feel free to add anything after-->
 
@@ -87,7 +87,7 @@
                     </div>
 
                 </div>
-                <div class="col-2"></div>
+                <div class="col-1"></div>
 
 
         </div>
